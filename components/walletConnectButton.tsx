@@ -15,7 +15,6 @@ export const WalletConnectButton = () => {
 
     const fetch = async () => {
       const bal = await fetchFrostBal(address as string);
-      console.log(bal);
       setFrost(bal);
     }
 

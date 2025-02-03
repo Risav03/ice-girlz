@@ -1,10 +1,12 @@
 import {contractAdds} from "@/utils/contractAdds";
 import frostAbi from "@/utils/abis/frost";
 import IGabi from "@/utils/abis/ice-girlz";
+import IFabi from "@/utils/abis/ice-folks";
 import { ethers } from "ethers";
+import stakingAbi from "@/utils/abis/staking";
 
-const add = [contractAdds.frost, contractAdds.iceGirlz];
-const abi = [frostAbi, IGabi];
+const add = [contractAdds.frost, contractAdds.iceGirlz, contractAdds.iceFolks, contractAdds.staking];
+const abi = [frostAbi, IGabi, IFabi, stakingAbi];
 
 export async function contractSetup(index: number){
     try {

@@ -9,13 +9,13 @@ import { useAccount } from "wagmi";
 export default function Home({params}:{params:{collection:string}}) {
 
   // const bal = await fetchFrostBal(address as string);
-
+  console.log(params.collection);
   return (
     <div>
       <Background/>
       <Navbar/>
       {/* @ts-ignore */}
-      <StakeHolder collection={params.collection} />
+      <StakeHolder collection={params.collection.toLowerCase()} />
     </div>
   );
 }
