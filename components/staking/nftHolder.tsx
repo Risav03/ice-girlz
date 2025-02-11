@@ -20,9 +20,12 @@ export const NFTHolder = ({ info }: { info: any }) => {
     const [stakedIds, setStakedIds] = React.useState<number[]>([]);
     const [unstakedIds, setUnstakedIds] = React.useState<number[]>([]);
 
+    const[loadNfts, setLoadNfts] = React.useState<boolean>(false);
+
     const { address } = useAccount();
 
     async function fetchStakedInfo() {
+        setLoadNfts(true);
         try {
             const res: any = await fetchNFT(info.index, address as `0x${string}`);
 
@@ -81,6 +84,9 @@ export const NFTHolder = ({ info }: { info: any }) => {
         catch (err) {
             console.log(err);
         }
+        finally{
+            setLoadNfts(false);
+        }
     }
 
     useEffect(() => {
@@ -88,10 +94,10 @@ export const NFTHolder = ({ info }: { info: any }) => {
             fetchStakedInfo();
     }, [info, address, loading])
 
-    return (
-        <div className="h-full w-full p-6">
-
+    return (<>
+    
             {loading && <div className="h-screen w-screen z-50 fixed font-bold flex-col text-xl top-0 left-0 backdrop-blur-xl bg-black/30 text-white flex items-center justify-center gap-4"><RiLoader5Fill className="text-3xl animate-spin" />Loading</div>}
+        <div className="h-full w-full p-6 relative">
 
             <div className="flex border-b-[1px] items-end pb-4 border-icePurp">
                 <div className="w-fit text-nowrap">
@@ -104,6 +110,9 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 </div>
             </div>
 
+            {loadNfts ? <div className="h-full w-full flex items-center justify-center absolute top-0 left-0"><RiLoader5Fill className="text-icePurp text-4xl animate-spin" /></div>
+        :
+        <>
             {selected == "Unstaked" ? <>
                 {unstakedIds.length > 0 && <div className="mt-2 flex justify-end">
                     <Button onClick={() => { handleStakeAll(info.index, unstakedIds) }} selected="" >Stake All</Button>
@@ -121,11 +130,10 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 {stakedIds.length > 0 && <div className="mt-2 flex justify-end">
                     <Button onClick={() => { handleClaimAll(info.index, stakedIds) }} selected="" >Claim All</Button>
                 </div>}
-                {stakedData.length > 0 ? <div className="mt-2">
+                {stakedData.length > 0 ? <div className="mt-2 flex flex-wrap gap-2">
 
                     {stakedData?.map((data: any, index: number) => (
                         <>
-                        {stakedIds[index]}
                         <StakedCard  handleClaim={()=>{handleClaim(stakedIds[index], info.index)}} data={data} />
                         </>
                     ))}
@@ -133,6 +141,10 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 
             </>
             }
+        </>    
+        }
+
         </div>
+        </>
     )
 }
