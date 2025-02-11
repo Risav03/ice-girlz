@@ -60,6 +60,23 @@ export const useNFTFetcher = () => {
         }
     }
 
-    return {fetchNFT, selected, setSelected, handleStake, handleStakeAll, loading, handleClaimAll}
+    async function handleClaim(tokenId:number, contractId:number){
+        setLoading(true);
+        try{
+            const contract = await contractSetup(3);
+            const res = await contract?.claim(tokenId, contractId);
+
+            await res.wait();
+        }
+        catch(err){
+            setLoading(false);
+            console.log(err);
+        }
+        finally{
+            setLoading(false);
+        }
+    }
+
+    return {fetchNFT, selected, setSelected, handleStake, handleStakeAll, loading, handleClaimAll, handleClaim}
 
 }

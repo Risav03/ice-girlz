@@ -12,7 +12,7 @@ import { ethers } from "ethers";
 
 export const NFTHolder = ({ info }: { info: any }) => {
 
-    const { fetchNFT, selected, setSelected, handleStakeAll, loading, handleClaimAll } = useNFTFetcher();
+    const { fetchNFT, selected, setSelected, handleStakeAll, loading, handleClaimAll, handleClaim } = useNFTFetcher();
 
     const [stakedData, setStakedData] = React.useState<any>([]);
     const [unstakedData, setUnstakedData] = React.useState<any>([]);
@@ -124,7 +124,10 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 {stakedData.length > 0 ? <div className="mt-2">
 
                     {stakedData?.map((data: any, index: number) => (
-                        <StakedCard data={data} />
+                        <>
+                        {stakedIds[index]}
+                        <StakedCard  handleClaim={()=>{handleClaim(stakedIds[index], info.index)}} data={data} />
+                        </>
                     ))}
                 </div> : <h2 className="text-icePurp/70 h-full -translate-y-6 flex items-center justify-center">No staked NFTs</h2>}
                 
