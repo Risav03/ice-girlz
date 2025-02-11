@@ -13,13 +13,13 @@ const collectionData = {
         name: 'Ice Girlz',
         ca: contractAdds.iceGirlz,
         abi: igAbi,
-        index: 2
+        index: 1
     },
     "ice-folks": {
         name: 'Ice Folks',
         ca: contractAdds.iceFolks,
         abi: ifAbi,
-        index: 1
+        index: 2
     }
 } as const
 
@@ -39,7 +39,7 @@ export const StakeHolder = ({collection}: {collection: CollectionKey}) => {
                     <div className='flex gap-2 justify-end w-1/2'>
                         <Button onClick={()=>{router.push("/collection/ice-girlz")}} selected={collection.includes("-") ? collection.replace("-"," ") : collection}>ICE GIRLZ</Button>
                         <Button onClick={()=>{router.push("/collection/ice-folks")}} selected={collection.includes("-") ? collection.replace("-"," ") : collection}>ICE FOLKS</Button>
-                        <Button onClick={()=>{router.push("/collection/wicc")}} selected={collection.includes("-") ? collection.replace("-"," ") : collection}>WICC</Button>
+                        {/* <Button onClick={()=>{router.push("/collection/wicc")}} selected={collection.includes("-") ? collection.replace("-"," ") : collection}>WICC</Button> */}
                     </div>
                 </div>
 

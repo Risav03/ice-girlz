@@ -324,14 +324,48 @@ export default [
 			{
 				"components": [
 					{
-						"internalType": "string[]",
+						"components": [
+							{
+								"internalType": "string",
+								"name": "uri",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "rewards",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct nftInfo[]",
 						"name": "staked",
-						"type": "string[]"
+						"type": "tuple[]"
 					},
 					{
-						"internalType": "string[]",
+						"components": [
+							{
+								"internalType": "string",
+								"name": "uri",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "tokenId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "rewards",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct nftInfo[]",
 						"name": "notStaked",
-						"type": "string[]"
+						"type": "tuple[]"
 					}
 				],
 				"internalType": "struct userNFTs",

@@ -8,8 +8,6 @@ import { useAccount } from "wagmi";
 
 export default function Home({params}:{params:{collection:string}}) {
 
-  // const bal = await fetchFrostBal(address as string);
-  console.log(params.collection);
   return (
     <div>
       <Background/>

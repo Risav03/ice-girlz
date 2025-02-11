@@ -8,7 +8,7 @@ export default function Navbar(){
     const pathname = usePathname()
 
     return(
-        <div className="fixed top-0 left-0 px-6 py-4 flex w-screen justify-end">
+        <div className="fixed top-0 left-0 md:px-6 md:py-4 max-md:px-3 max-md:py-2 max-md:justify-center flex w-screen justify-end">
             
                 <WalletConnectButton/>
 

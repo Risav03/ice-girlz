@@ -24,7 +24,7 @@ export const WalletConnectButton = () => {
   },[address])
 
   return (
-    <div className=''>
+    <div className='max-md:w-full max-md:flex max-md:justify-center'>
     <ConnectButton.Custom>
       {({
         account,
@@ -72,14 +72,14 @@ export const WalletConnectButton = () => {
                 );
               }
               return (
-                <div style={{ display: 'flex', gap: 12 }}>
+                <div style={{ display: 'flex', gap: 0 }}>
                   <button
                     onClick={openChainModal}
                     style={{ display: 'flex', alignItems: 'center' }}
                     type="button"
                     className=' rounded-full'
                   >
-                    {chain.hasIcon && (
+                    {/* {chain.hasIcon && (
                       <div
                         style={{
                           background: chain.iconBackground,
@@ -98,7 +98,7 @@ export const WalletConnectButton = () => {
                           />
                         )}
                       </div>
-                    )}
+                    )} */}
                     {/* {chain.name} */}
                   </button>
                   <button title='Click to view address' onClick={openAccountModal} type="button" className='bg-white border-2 h-10 border-icePurp text-icePurp font-bold rounded-full px-3 py-1 transform transition duration-300 ease-in-out hover:-translate-y-1 '>

@@ -5,12 +5,11 @@ import { useAccount } from 'wagmi';
 
 export const useNFTFetcher = () => {
 
-    const{address} = useAccount();
     const[selected, setSelected] = React.useState<string>('Staked');
+    const[loading, setLoading] = React.useState<boolean>(false);
   
-    const fetchNFT = async (index:number) => {
+    const fetchNFT = async (index:number, address:`0x${string}`) => {
         try {
-            console.log("fething fro", index)
             const contract = await contractSetup(3);
             return await contract?.getUsersNFT(index, address);
         } catch (err) {
@@ -18,6 +17,49 @@ export const useNFTFetcher = () => {
         }
     }
 
-    return {fetchNFT, selected, setSelected}
+    async function handleStake(tokenId:number, contractId:number){
+        try{
+            const contract = await contractSetup(3);
+            await contract?.stake(tokenId, contractId);
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
+    async function handleClaimAll(contractId:number, tokenIds:number[]){
+        setLoading(true);
+        try{
+            const contract = await contractSetup(3);
+            const res = await contract?.claimAll(tokenIds, contractId);
+
+            await res.wait();
+        }
+        catch(err){
+            setLoading(false);
+            console.log(err);
+        }
+        finally{
+            setLoading(false);
+        }
+    }
+
+    async function handleStakeAll(contractId:number, tokenIds:number[]){
+        setLoading(true);
+        try{
+            const contract = await contractSetup(3);
+            const res = await contract?.batchStake(tokenIds, contractId);
+
+            await res.wait();
+        }
+        catch(err){
+            console.log(err);
+        }
+        finally{
+            setLoading(false);
+        }
+    }
+
+    return {fetchNFT, selected, setSelected, handleStake, handleStakeAll, loading, handleClaimAll}
 
 }
