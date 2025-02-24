@@ -1,12 +1,13 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Button from '../UI/items/button'
 import { contractAdds } from '@/utils/contractAdds'
 import igAbi from "@/utils/abis/ice-girlz"
 import ifAbi from "@/utils/abis/ice-folks"
 import { NFTHolder } from './nftHolder'
+import { holdersGetter } from '@/utils/services/getHolders'
 
 const collectionData = {
     "ice-girlz": {
@@ -28,6 +29,11 @@ type CollectionKey = keyof typeof collectionData
 export const StakeHolder = ({collection}: {collection: CollectionKey}) => {
 
     const router = useRouter();
+
+
+useEffect(()=>{
+    holdersGetter()
+},[])
 
     return (
         <div className="min-h-screen w-screen md:px-10 max-md:px-4 py-20 flex items-center justify-center">

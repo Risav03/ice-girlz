@@ -20,7 +20,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
     const [stakedIds, setStakedIds] = React.useState<number[]>([]);
     const [unstakedIds, setUnstakedIds] = React.useState<number[]>([]);
 
-    const[loadNfts, setLoadNfts] = React.useState<boolean>(false);
+    const [loadNfts, setLoadNfts] = React.useState<boolean>(false);
 
     const { address } = useAccount();
 
@@ -29,13 +29,11 @@ export const NFTHolder = ({ info }: { info: any }) => {
         try {
             const res: any = await fetchNFT(info.index, address as `0x${string}`);
 
-            console.log(res[0])
 
             if (res) {
 
                 if (res[1][0][0] != "") {
                     const promises1 = res[1]?.map((hash: any) => fetch(`https://ipfs.io/ipfs/${hash[0].slice(7)}`).then((response: any) => {
-                        console.log(response)
 
                         if (!response.ok) throw new Error(`Failed to fetch`);
                         return response.json();
@@ -84,7 +82,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
         catch (err) {
             console.log(err);
         }
-        finally{
+        finally {
             setLoadNfts(false);
         }
     }
@@ -95,11 +93,11 @@ export const NFTHolder = ({ info }: { info: any }) => {
     }, [info, address, loading])
 
     return (<>
-    
-            {loading && <div className="h-screen w-screen z-50 fixed font-bold flex-col text-xl top-0 left-0 backdrop-blur-xl bg-black/30 text-white flex items-center justify-center gap-4"><RiLoader5Fill className="text-3xl animate-spin" />Loading</div>}
+
+        {loading && <div className="h-screen w-screen z-50 fixed font-bold flex-col text-xl top-0 left-0 backdrop-blur-xl bg-black/30 text-white flex items-center justify-center gap-4"><RiLoader5Fill className="text-3xl animate-spin" />Loading</div>}
         <div className="h-full w-full p-6 relative">
 
-            <div className="flex border-b-[1px] items-end pb-4 border-icePurp">
+            <div className="flex border-b-[1px] bg-white  items-end pb-4 border-icePurp">
                 <div className="w-fit text-nowrap">
                     <h1 className='text-icePurp text-3xl font-bold text-left w-1/2'>{info.name} Staking</h1>
                 </div>
@@ -110,41 +108,50 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 </div>
             </div>
 
-            {loadNfts ? <div className="h-full w-full flex items-center justify-center absolute top-0 left-0"><RiLoader5Fill className="text-icePurp text-4xl animate-spin" /></div>
-        :
-        <>
-            {selected == "Unstaked" ? <>
-                {unstakedIds.length > 0 && <div className="mt-2 flex justify-end">
-                    <Button onClick={() => { handleStakeAll(info.index, unstakedIds) }} selected="" >Stake All</Button>
-                </div>}
-                {unstakedData.length > 0 ? <div className="mt-2">
+            <div className="h-full pb-[7vh]">
 
-                    {unstakedData?.map((data: any, index: number) => (
-                        <NotStakedCard data={data} />
-                    ))}
-                </div> : <h2 className="text-icePurp/70 h-full -translate-y-6 flex items-center justify-center">No unstaked NFTs</h2>}
+                <div className="h-full overflow-hidden">
 
-            </>
-            :
-            <>
-                {stakedIds.length > 0 && <div className="mt-2 flex justify-end">
-                    <Button onClick={() => { handleClaimAll(info.index, stakedIds) }} selected="" >Claim All</Button>
-                </div>}
-                {stakedData.length > 0 ? <div className="mt-2 flex flex-wrap gap-2">
-
-                    {stakedData?.map((data: any, index: number) => (
+                    {loadNfts ? <div className="h-full w-full flex items-center justify-center absolute top-0 left-0"><RiLoader5Fill className="text-icePurp text-4xl animate-spin" /></div>
+                        :
                         <>
-                        <StakedCard  handleClaim={()=>{handleClaim(stakedIds[index], info.index)}} data={data} />
+                            {selected == "Unstaked" ? <>
+                                {unstakedIds.length > 0 && <div className="mt-2 flex justify-end">
+                                    <Button onClick={() => { handleStakeAll(info.index, unstakedIds) }} selected="" >Stake All</Button>
+                                </div>}
+                                {unstakedData.length > 0 ? <div className="mt-2 mx-auto flex gap-1 flex-wrap h-full overflow-y-scroll pt-4 pb-[10vh]">
+
+                                    {unstakedData?.map((data: any, index: number) => (
+                                        <div className="">
+                                        <NotStakedCard data={data} />
+                                        </div>
+                                    ))}
+                                </div> : <h2 className="text-icePurp/70 h-full flex items-center justify-center">No unstaked NFTs</h2>}
+
+                            </>
+                                :
+                                <>
+                                    {stakedIds.length > 0 && <div className="mt-2 flex justify-end">
+                                        <Button onClick={() => { handleClaimAll(info.index, stakedIds) }} selected="" >Claim All</Button>
+                                    </div>}
+                                    {stakedData.length > 0 ? <div className="mt-2 mx-auto flex h-full overflow-y-scroll pt-4 pb-[10vh] flex-wrap p-1">
+
+                                        {stakedData?.map((data: any, index: number) => (
+                                            <>
+                                                <StakedCard handleClaim={() => { handleClaim(stakedIds[index], info.index) }} data={data} />
+                                            </>
+                                        ))}
+                                    </div> : <h2 className="text-icePurp/70 h-full flex items-center justify-center">No staked NFTs</h2>}
+
+                                </>
+                            }
                         </>
-                    ))}
-                </div> : <h2 className="text-icePurp/70 h-full -translate-y-6 flex items-center justify-center">No staked NFTs</h2>}
-                
-            </>
-            }
-        </>    
-        }
+                    }
+                </div>
+
+            </div>
 
         </div>
-        </>
+    </>
     )
 }
