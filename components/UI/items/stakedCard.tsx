@@ -12,8 +12,8 @@ export const StakedCard = ({data, handleClaim}:{data:any, handleClaim:any}) => {
         <div className='w-1/3'>
           Claim
         </div>
-        <div className='w-2/3 text-right pr-2'>
-          {Number(data.rewards).toFixed(2)} $FROST
+        <div className='w-2/3 text-right pr-2 text-nowrap'>
+          {Math.floor(Number(data.rewards))} $FROST
         </div>
       </button>
     </div>
