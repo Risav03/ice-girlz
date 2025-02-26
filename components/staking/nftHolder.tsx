@@ -118,7 +118,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                                     <Button onClick={() => { handleStakeAll(info.index, unstakedIds) }} selected="" >Stake All</Button>
                                 </div>}
                                 {unstakedData.length > 0 ? (
-                                    <div className="mt-2 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 h-full overflow-y-scroll pt-4 pb-[10vh]">
+                                    <div className="mt-2 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 h-full overflow-y-scroll pt-4 pb-[18vh]">
                                         {unstakedData?.map((data: any, index: number) => (
                                             <div key={index}>
                                                 <NotStakedCard data={data} />
@@ -135,7 +135,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                                     {stakedIds.length > 0 && <div className="mt-2 flex justify-end">
                                         <Button onClick={() => { handleClaimAll(info.index, stakedIds) }} selected="" >Claim All</Button>
                                     </div>}
-                                    {stakedData.length > 0 ? <div className="mt-2 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 h-full overflow-y-scroll pt-4 pb-[15vh]">
+                                    {stakedData.length > 0 ? <div className="mt-2 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 h-full overflow-y-scroll pt-4 pb-[18vh]">
 
                                         {stakedData?.map((data: any, index: number) => (
                                             <>
