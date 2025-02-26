@@ -7,7 +7,7 @@ export async function fetchFrostBal(account:string){
         const contract = await fetcherContractSetup(0);
         const bal = Number(ethers.utils.formatEther(await contract?.balanceOf(account)));
     
-        return bal;
+        return Number(bal.toFixed(2));
 
     }
     catch(err){

@@ -101,8 +101,8 @@ export const WalletConnectButton = () => {
                     )} */}
                     {/* {chain.name} */}
                   </button>
-                  <button title='Click to view address' onClick={openAccountModal} type="button" className='bg-white border-2 h-10 border-icePurp text-icePurp font-bold rounded-full px-3 py-1 transform transition duration-300 ease-in-out hover:-translate-y-1 '>
-                    {account.displayName} | {frost ? frost.toLocaleString() : "XX"} $FROST
+                  <button title='Click to view address' onClick={openAccountModal} type="button" className='bg-white flex items-center justify-center border-2 h-10 border-icePurp text-icePurp font-bold rounded-full px-3 py-1 transform transition duration-300 ease-in-out hover:-translate-y-1 '>
+                    {account.displayName} | {frost ? frost.toLocaleString() : <div className='h-6 w-10 mx-2 rounded-lg bg-icePurp/30 animate-pulse'></div>} $FROST
                     {/* {account.displayBalance
                       ? ` ${account.displayBalance.slice(0,account.displayBalance.length-5)} $POL`
                       : ''} */}
