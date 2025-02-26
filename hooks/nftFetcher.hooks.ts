@@ -1,5 +1,5 @@
 'use client'
-import { contractSetup } from '@/utils/handlers/contractSetup';
+import { contractSetup, fetcherContractSetup } from '@/utils/handlers/contractSetup';
 import React from 'react'
 import { useAccount } from 'wagmi';
 
@@ -10,7 +10,7 @@ export const useNFTFetcher = () => {
   
     const fetchNFT = async (index:number, address:`0x${string}`) => {
         try {
-            const contract = await contractSetup(3);
+            const contract = await fetcherContractSetup(3);
             return await contract?.getUsersNFT(index, address);
         } catch (err) {
             console.log(err);

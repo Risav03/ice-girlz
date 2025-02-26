@@ -30,8 +30,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
         try {
             const res: any = await fetchNFT(info.index, address as `0x${string}`);
 
-
-            if (res) {
+            if (res[1].length > 0) {
 
                 if (res[1][0][0] != "") {
                     const promises1 = res[1]?.map((hash: any) => fetch(`https://ipfs.io/ipfs/${hash[0].slice(7)}`).then((response: any) => {
@@ -46,15 +45,14 @@ export const NFTHolder = ({ info }: { info: any }) => {
                     setUnstakedData(response1);
 
                     const _unstakedIds = res[1]?.map((item: any) => Number(item[1]));
-                    console.log("unstakedIds", _unstakedIds)
                     setUnstakedIds(_unstakedIds);
                 }
+            }
 
-
+            if(res[0].length > 0){
                 if (res[0][0][0] != "") {
-                    console.log("MEOW");
+
                     const promises2 = res[0]?.map((hash: any) => hash.length > 0 && fetch(`https://ipfs.io/ipfs/${hash[0].slice(7)}`).then((response: any) => {
-                        console.log(response)
                         if (!response.ok) throw new Error(`Failed to fetch`);
                         return response.json();
                     })
@@ -67,8 +65,6 @@ export const NFTHolder = ({ info }: { info: any }) => {
                     response2.forEach((item: any, index: number) => {
                         item.rewards = ethers.utils.formatEther(res[0][index][2]);
                     })
-
-                    console.log(response2)
 
                     setStakedData(response2);
                     //map the res[1] array and enter all the items[1] to stakedIds useState
