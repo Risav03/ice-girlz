@@ -28,7 +28,7 @@ export async function contractSetup(index: number) {
 
 export async function fetcherContractSetup(index: number) {
   try {
-    console.log(process.env.NEXT_PUBLIC_INFURA_API_KEY);
+    console.log("API KEY",process.env.NEXT_PUBLIC_INFURA_API_KEY);
     // @ts-ignore
     const provider = new ethers.getDefaultProvider(process.env.NEXT_PUBLIC_INFURA_API_KEY);
     const contract = new ethers.Contract(add[index], abi[index], provider);
