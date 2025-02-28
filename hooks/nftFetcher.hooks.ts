@@ -57,6 +57,7 @@ export const useNFTFetcher = () => {
         }
         finally{
             setLoading(false);
+            fetch
         }
     }
 
