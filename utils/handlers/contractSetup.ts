@@ -34,18 +34,12 @@ export async function fetcherContractSetup(index: number) {
       console.error("Infura API key not found");
       return null;
     }
+ 
+    // @ts-ignore
+    const provider = new ethers.getDefaultProvider(process.env.NEXT_PUBLIC_INFURA_API_KEY);
+
     
-    let provider, contract;
-    
-    // Check ethers version by feature detection
-    if (typeof ethers.providers !== 'undefined') {
-      // Ethers v5
-      // Use the network name and API key properly
-      // @ts-ignore
-      provider = new ethers.providers.getDefaultProvider(apiKey);
-    }
-    
-    contract = new ethers.Contract(add[index], abi[index], provider);
+    const contract = new ethers.Contract(add[index], abi[index], provider);
     return contract;
   } catch (err) {
     console.error("Error setting up fetcher contract:", err);
