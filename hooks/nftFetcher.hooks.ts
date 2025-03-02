@@ -9,13 +9,11 @@ export const useNFTFetcher = () => {
     const[loading, setLoading] = React.useState<boolean>(false);
   
     async function fetchNFT(index:number, address:`0x${string}`){
-        console.log("FETCHING FOR WALLET: ", address);
-        console.log("FETCHING FOR INDEX: ", index);
+
         try {
             const contract = await fetcherContractSetup(3);
             const data = await contract?.getUsersNFT(index, address);
 
-            console.log("USER NFT DATA: ", data);
             return data;
         } catch (err) {
             console.log(err);

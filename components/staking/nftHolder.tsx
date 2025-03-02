@@ -30,10 +30,12 @@ export const NFTHolder = ({ info }: { info: any }) => {
         try {
             const res: any = await fetchNFT(info.index, address as `0x${string}`);
 
+            console.log("ALL NFTS FETCHED", res);
+
             if (res[1].length > 0) {
 
                 if (res[1][0][0] != "") {
-                    const promises1 = res[1]?.map((hash: any) => fetch(`https://ipfs.io/ipfs/${hash[0].slice(7)}`).then((response: any) => {
+                    const promises1 = res[1]?.map((hash: any) => fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`).then((response: any) => {
 
                         if (!response.ok) throw new Error(`Failed to fetch`);
                         return response.json();
@@ -52,7 +54,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
             if(res[0].length > 0){
                 if (res[0][0][0] != "") {
 
-                    const promises2 = res[0]?.map((hash: any) => hash.length > 0 && fetch(`https://ipfs.io/ipfs/${hash[0].slice(7)}`).then((response: any) => {
+                    const promises2 = res[0]?.map((hash: any) => hash.length > 0 && fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`).then((response: any) => {
                         if (!response.ok) throw new Error(`Failed to fetch`);
                         return response.json();
                     })
