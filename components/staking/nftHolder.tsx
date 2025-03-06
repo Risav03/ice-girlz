@@ -30,58 +30,100 @@ export const NFTHolder = ({ info }: { info: any }) => {
         try {
             const res: any = await fetchNFT(info.index, address as `0x${string}`);
 
-            console.log("ALL NFTS FETCHED", res);
-
             if (res[1].length > 0) {
-
                 if (res[1][0][0] != "") {
-                    const promises1 = res[1]?.map((hash: any) => fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`).then((response: any) => {
-
-                        if (!response.ok) throw new Error(`Failed to fetch`);
-
-                        setTimeout(()=>{
-                            console.log("");
-                        },50)
-                        return response.json();
-                    })
-
-                    )
-                    const response1 = await Promise.all(promises1);
-
-                    setUnstakedData(response1);
-
+                    const unstakedResults = [];
                     const _unstakedIds = res[1]?.map((item: any) => Number(item[1]));
+                    
+                    for (let i = 0; i < res[1].length; i++) {
+                        const hash = res[1][i];
+                        let success = false;
+                        let retries = 0;
+                        const maxRetries = 3; // Set maximum number of retries
+                        
+                        while (!success && retries < maxRetries) {
+                            try {
+                                const response = await fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`);
+                                
+                                if (!response.ok) {
+                                    throw new Error(`Failed to fetch`);
+                                }
+                                
+                                setTimeout(() => {
+                                    console.log("");
+                                }, 50);
+                                
+                                const data = await response.json();
+                                unstakedResults.push(data);
+                                success = true;
+                            } catch (error) {
+                                console.error(`Attempt ${retries + 1} failed for unstaked item ${i}:`, error);
+                                retries++;
+                                
+                                if (retries >= maxRetries) {
+                                    console.error(`Max retries reached for unstaked item ${i}`);
+                                }
+                                
+                                // Optional: add exponential backoff delay
+                                await new Promise(resolve => setTimeout(resolve, 1000 * retries));
+                            }
+                        }
+                    }
+                    
+                    setUnstakedData(unstakedResults);
                     setUnstakedIds(_unstakedIds);
                 }
             }
-
-            if(res[0].length > 0){
+            
+            if (res[0].length > 0) {
                 if (res[0][0][0] != "") {
-
-                    const promises2 = res[0]?.map((hash: any) => hash.length > 0 && fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`).then((response: any) => {
-                        if (!response.ok) throw new Error(`Failed to fetch`);
-                        setTimeout(()=>{
-                            console.log("");
-                        },50)
-                        return response.json();
-                    })
-
-                    )
-
-                    const response2 = await Promise.all(promises2);
-
-                    //i want to add hash[2] to each object in response2 as rewards:ethers.utils.formatEther(String(hash[2]))
-                    response2.forEach((item: any, index: number) => {
-                        item.rewards = ethers.utils.formatEther(res[0][index][2]);
-                    })
-
-                    setStakedData(response2);
-                    //map the res[1] array and enter all the items[1] to stakedIds useState
+                    const stakedResults = [];
                     const _stakedIds = res[0]?.map((item: any) => Number(item[1]));
+                    
+                    for (let i = 0; i < res[0].length; i++) {
+                        const hash = res[0][i];
+                        let success = false;
+                        let retries = 0;
+                        const maxRetries = 3; // Set maximum number of retries
+                        
+                        if (hash.length > 0) {
+                            while (!success && retries < maxRetries) {
+                                try {
+                                    const response = await fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`);
+                                    
+                                    if (!response.ok) {
+                                        throw new Error(`Failed to fetch`);
+                                    }
+                                    
+                                    setTimeout(() => {
+                                        console.log("");
+                                    }, 50);
+                                    
+                                    const data = await response.json();
+                                    
+                                    // Add rewards to each object
+                                    data.rewards = ethers.utils.formatEther(hash[2]);
+                                    
+                                    stakedResults.push(data);
+                                    success = true;
+                                } catch (error) {
+                                    console.error(`Attempt ${retries + 1} failed for staked item ${i}:`, error);
+                                    retries++;
+                                    
+                                    if (retries >= maxRetries) {
+                                        console.error(`Max retries reached for staked item ${i}`);
+                                    }
+                                    
+                                    // Optional: add exponential backoff delay
+                                    await new Promise(resolve => setTimeout(resolve, 1000 * retries));
+                                }
+                            }
+                        }
+                    }
+                    
+                    setStakedData(stakedResults);
                     setStakedIds(_stakedIds);
                 }
-
-
             }
 
         }
