@@ -32,97 +32,139 @@ export const NFTHolder = ({ info }: { info: any }) => {
 
             if (res[1].length > 0) {
                 if (res[1][0][0] != "") {
-                    const unstakedResults = [];
                     const _unstakedIds = res[1]?.map((item: any) => Number(item[1]));
+                    setUnstakedIds(_unstakedIds);
                     
-                    for (let i = 0; i < res[1].length; i++) {
-                        const hash = res[1][i];
-                        let success = false;
-                        let retries = 0;
-                        const maxRetries = 3; // Set maximum number of retries
+                    // Define a consistent return type for our promises
+                    interface FetchResult {
+                        failed: boolean;
+                        data?: any;
+                        index: number;
+                    }
+                    
+                    // Initial fetch attempts for all items
+                    const unstakedPromises = res[1].map((hash: any, index: number) => {
+                        return fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`)
+                            .then(async (response): Promise<FetchResult> => {
+                                if (!response.ok) {
+                                    return { failed: true, index, data: undefined };
+                                }
+                                const data = await response.json();
+                                return { failed: false, data, index };
+                            })
+                            .catch((): FetchResult => ({ failed: true, index, data: undefined }));
+                    });
+                    
+                    // Process initial results and identify failures
+                    const initialResults = await Promise.all(unstakedPromises);
+                    const successfulResults: any[] = [];
+                    const failedIndices: number[] = [];
+                    
+                    initialResults.forEach((result) => {
+                        if (!result.failed && result.data) {
+                            successfulResults[result.index] = result.data;
+                        } else {
+                            failedIndices.push(result.index);
+                        }
+                    });
+                    
+                    // Set initial data to display right away
+                    if (successfulResults.some(item => item !== undefined)) {
+                        setUnstakedData(successfulResults.filter(item => item !== undefined));
+                    }
+                    
+                    // Retry failed requests one at a time (if any)
+                    if (failedIndices.length > 0) {
+                        console.log(`Retrying ${failedIndices.length} failed requests...`);
                         
-                        while (!success && retries < maxRetries) {
+                        for (const index of failedIndices) {
+                            const hash = res[1][index];
                             try {
                                 const response = await fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`);
-                                
-                                if (!response.ok) {
-                                    throw new Error(`Failed to fetch`);
+                                if (response.ok) {
+                                    const data = await response.json();
+                                    successfulResults[index] = data;
+                                    // Update the state with each successful retry
+                                    setUnstakedData([...successfulResults.filter(item => item !== undefined)]);
                                 }
-                                
-                                setTimeout(() => {
-                                    console.log("");
-                                }, 50);
-                                
-                                const data = await response.json();
-                                unstakedResults.push(data);
-                                success = true;
                             } catch (error) {
-                                console.error(`Attempt ${retries + 1} failed for unstaked item ${i}:`, error);
-                                retries++;
-                                
-                                if (retries >= maxRetries) {
-                                    console.error(`Max retries reached for unstaked item ${i}`);
-                                }
-                                
-                                // Optional: add exponential backoff delay
-                                await new Promise(resolve => setTimeout(resolve, 1000 * retries));
+                                console.error(`Retry failed for unstaked item ${index}`);
                             }
                         }
                     }
-                    
-                    setUnstakedData(unstakedResults);
-                    setUnstakedIds(_unstakedIds);
                 }
             }
             
             if (res[0].length > 0) {
                 if (res[0][0][0] != "") {
-                    const stakedResults = [];
                     const _stakedIds = res[0]?.map((item: any) => Number(item[1]));
+                    setStakedIds(_stakedIds);
                     
-                    for (let i = 0; i < res[0].length; i++) {
-                        const hash = res[0][i];
-                        let success = false;
-                        let retries = 0;
-                        const maxRetries = 3; // Set maximum number of retries
-                        
+                    // Define a consistent return type for our promises
+                    interface FetchResult {
+                        failed: boolean;
+                        data?: any;
+                        index: number;
+                    }
+                    
+                    // Initial fetch attempts for all items
+                    const stakedPromises = res[0].map((hash: any, index: number) => {
                         if (hash.length > 0) {
-                            while (!success && retries < maxRetries) {
+                            return fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`)
+                                .then(async (response): Promise<FetchResult> => {
+                                    if (!response.ok) {
+                                        return { failed: true, index, data: undefined };
+                                    }
+                                    const data = await response.json();
+                                    data.rewards = ethers.utils.formatEther(hash[2]);
+                                    return { failed: false, data, index };
+                                })
+                                .catch((): FetchResult => ({ failed: true, index, data: undefined }));
+                        } else {
+                            return Promise.resolve<FetchResult>({ failed: true, index, data: undefined });
+                        }
+                    });
+                    
+                    // Process initial results and identify failures
+                    const initialResults = await Promise.all(stakedPromises);
+                    const successfulResults: any[] = [];
+                    const failedIndices: number[] = [];
+                    
+                    initialResults.forEach((result) => {
+                        if (!result.failed && result.data) {
+                            successfulResults[result.index] = result.data;
+                        } else {
+                            failedIndices.push(result.index);
+                        }
+                    });
+                    
+                    // Set initial data to display right away
+                    if (successfulResults.some(item => item !== undefined)) {
+                        setStakedData(successfulResults.filter(item => item !== undefined));
+                    }
+                    
+                    // Retry failed requests one at a time (if any)
+                    if (failedIndices.length > 0) {
+                        console.log(`Retrying ${failedIndices.length} failed staked requests...`);
+                        
+                        for (const index of failedIndices) {
+                            const hash = res[0][index];
+                            if (hash.length > 0) {
                                 try {
                                     const response = await fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`);
-                                    
-                                    if (!response.ok) {
-                                        throw new Error(`Failed to fetch`);
+                                    if (response.ok) {
+                                        const data = await response.json();
+                                        data.rewards = ethers.utils.formatEther(hash[2]);
+                                        successfulResults[index] = data;
+                                        // Update the state with each successful retry
+                                        setStakedData([...successfulResults.filter(item => item !== undefined)]);
                                     }
-                                    
-                                    setTimeout(() => {
-                                        console.log("");
-                                    }, 50);
-                                    
-                                    const data = await response.json();
-                                    
-                                    // Add rewards to each object
-                                    data.rewards = ethers.utils.formatEther(hash[2]);
-                                    
-                                    stakedResults.push(data);
-                                    success = true;
                                 } catch (error) {
-                                    console.error(`Attempt ${retries + 1} failed for staked item ${i}:`, error);
-                                    retries++;
-                                    
-                                    if (retries >= maxRetries) {
-                                        console.error(`Max retries reached for staked item ${i}`);
-                                    }
-                                    
-                                    // Optional: add exponential backoff delay
-                                    await new Promise(resolve => setTimeout(resolve, 1000 * retries));
+                                    console.error(`Retry failed for staked item ${index}`);
                                 }
                             }
                         }
                     }
-                    
-                    setStakedData(stakedResults);
-                    setStakedIds(_stakedIds);
                 }
             }
 
