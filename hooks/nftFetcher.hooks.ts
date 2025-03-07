@@ -27,6 +27,8 @@ export const useNFTFetcher = () => {
         }
         catch(err){
             console.log(err);
+            window.location.reload();
+
         }
     }
 
@@ -44,6 +46,7 @@ export const useNFTFetcher = () => {
         }
         finally{
             setLoading(false);
+            window.location.reload();
         }
     }
 
@@ -60,7 +63,7 @@ export const useNFTFetcher = () => {
         }
         finally{
             setLoading(false);
-            fetch
+            window.location.reload();
         }
     }
 
@@ -78,6 +81,7 @@ export const useNFTFetcher = () => {
         }
         finally{
             setLoading(false);
+            window.location.reload();
         }
     }
 

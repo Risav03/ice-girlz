@@ -32,7 +32,10 @@ export const NFTHolder = ({ info }: { info: any }) => {
 
             if (res[1].length > 0) {
                 if (res[1][0][0] != "") {
-                    const _unstakedIds = res[1]?.map((item: any) => Number(item[1]));
+                    var _unstakedIds: number[]= [];
+                    res[1]?.map((item: any) => {
+                        if(Number(item[1] > 0)) _unstakedIds.push(Number(item[1]));
+                    });
                     setUnstakedIds(_unstakedIds);
                     
                     // Define a consistent return type for our promises
@@ -97,7 +100,11 @@ export const NFTHolder = ({ info }: { info: any }) => {
             
             if (res[0].length > 0) {
                 if (res[0][0][0] != "") {
-                    const _stakedIds = res[0]?.map((item: any) => Number(item[1]));
+                    var _stakedIds: number[] = [];
+                    res[0]?.map((item: any) => {
+                        if(Number(item[1] > 0)) _stakedIds.push(Number(item[1]));
+                    });
+
                     setStakedIds(_stakedIds);
                     
                     // Define a consistent return type for our promises
