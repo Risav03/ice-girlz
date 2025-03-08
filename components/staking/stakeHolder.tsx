@@ -13,13 +13,15 @@ const collectionData = {
         name: 'Ice Girlz',
         ca: contractAdds.iceGirlz,
         abi: igAbi,
-        index: 1
+        index: 1,
+        rewards: 10
     },
     "ice-folks": {
         name: 'Ice Folks',
         ca: contractAdds.iceFolks,
         abi: ifAbi,
-        index: 2
+        index: 2,
+        rewards: 5
     }
 } as const
 

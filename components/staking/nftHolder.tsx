@@ -20,7 +20,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
 
     const [stakedIds, setStakedIds] = React.useState<number[]>([]);
     const [unstakedIds, setUnstakedIds] = React.useState<number[]>([]);
-
+    const [unclaimed, setUnclaimed] = React.useState<number>(0);
     const [loadNfts, setLoadNfts] = React.useState<boolean>(false);
 
     const { address } = useAccount();
@@ -102,6 +102,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 if (res[0][0][0] != "") {
                     var _stakedIds: number[] = [];
                     res[0]?.map((item: any) => {
+                        setUnclaimed((prev)=>(Number(ethers.utils.formatEther(item[2])) + prev));
                         if(Number(item[1] > 0)) _stakedIds.push(Number(item[1]));
                     });
 
@@ -116,6 +117,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                     
                     // Initial fetch attempts for all items
                     const stakedPromises = res[0].map((hash: any, index: number) => {
+
                         if (hash.length > 0) {
                             return fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`)
                                 .then(async (response): Promise<FetchResult> => {
@@ -193,7 +195,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
     return (<>
 
         {loading && <div className="h-screen w-screen z-50 fixed font-bold flex-col text-xl top-0 left-0 backdrop-blur-xl bg-black/20 text-white flex items-center justify-center gap-4"><RiLoader5Fill className="text-3xl animate-spin" />Loading</div>}
-        <div className="h-full w-full p-6 relative">
+        <div className="h-full w-full md:p-6 max-md:px-2 max-md:pt-6 relative">
 
             <div className="flex max-md:flex-col max-md:justify-center max-md:gap-2 max-md:items-center border-b-[1px] bg-white items-end pb-4 border-icePurp">
                 <div className="w-fit text-nowrap">
@@ -206,7 +208,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 </div>
             </div>
 
-            <div className="h-full pb-[7vh]">
+            <div className="h-full pb-[12vh]">
 
                 <div className="h-full overflow-hidden">
 
@@ -251,7 +253,15 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 </div>
 
             </div>
-
+            <div className="flex gap-4 left-0 absolute bottom-0 py-2 font-bold px-4 bg-white border-t-[1px] border-icePurp w-full">
+                <div>
+                    <h2 className="text-icePurp">Unclaimed: {unclaimed.toFixed(2)} $FROST</h2>
+                </div>
+                    <h2 className="text-icePurp/40">|</h2>
+                <div>
+                    <h2 className="text-icePurp">Daily FROST: {stakedIds.length * info.rewards} $FROST</h2>
+                </div>
+            </div>
         </div>
     </>
     )
