@@ -23,18 +23,24 @@ export const NFTHolder = ({ info }: { info: any }) => {
     const [unclaimed, setUnclaimed] = React.useState<number>(0);
     const [loadNfts, setLoadNfts] = React.useState<boolean>(false);
 
+    const base = [7, 48];
+
     const { address } = useAccount();
 
     async function fetchStakedInfo() {
         setLoadNfts(true);
         try {
-            const res: any = await fetchNFT(info.index, address as `0x${string}`);
+            const res: any = await fetchNFT(info.index, "0xDa4b0A1F356d6986080Bb513554c9C7A6D0F1824" as `0x${string}`);
 
             if (res[1].length > 0) {
+
+                console.log("THERE ARE UNSTAKED NFTS");
+
                 if (res[1][0][0] != "") {
                     var _unstakedIds: number[]= [];
                     res[1]?.map((item: any) => {
                         if(Number(item[1] > 0)) _unstakedIds.push(Number(item[1]));
+                        console.log(Number(item[1]), item[0]);
                     });
                     setUnstakedIds(_unstakedIds);
                     
@@ -47,7 +53,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                     
                     // Initial fetch attempts for all items
                     const unstakedPromises = res[1].map((hash: any, index: number) => {
-                        return fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`)
+                        return fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(base[info.index-1])}`)
                             .then(async (response): Promise<FetchResult> => {
                                 if (!response.ok) {
                                     return { failed: true, index, data: undefined };
@@ -208,7 +214,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 </div>
             </div>
 
-            <div className="h-full pb-32">
+            <div className="h-full">
 
                 <div className="h-full overflow-hidden">
 
@@ -220,7 +226,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                                     <Button onClick={() => { handleStakeAll(info.index, unstakedIds) }} selected="" >Stake All</Button>
                                 </div>}
                                 {unstakedData.length > 0 ? (
-                                    <div className="mt-2 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 h-full overflow-y-scroll pt-4 pb-[18vh]">
+                                    <div className="mt-2 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 h-full overflow-y-scroll pt-4 md:pb-44 max-md:pb-60">
                                         {unstakedData?.map((data: any, index: number) => (
                                             <div key={index}>
                                                 <NotStakedCard data={data} />
@@ -237,7 +243,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                                     {stakedIds.length > 0 && <div className="mt-2 flex justify-end">
                                         <Button onClick={() => { handleClaimAll(info.index, stakedIds) }} selected="" >Claim All</Button>
                                     </div>}
-                                    {stakedData.length > 0 ? <div className="mt-2 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 h-full overflow-y-scroll pt-4 pb-[18vh]">
+                                    {stakedData.length > 0 ? <div className="mt-2 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 h-full overflow-y-scroll pt-4 md:pb-44 max-md:pb-60">
 
                                         {stakedData?.map((data: any, index: number) => (
                                             <>
