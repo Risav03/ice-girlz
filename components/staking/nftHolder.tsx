@@ -102,7 +102,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 if (res[0][0][0] != "") {
                     var _stakedIds: number[] = [];
                     res[0]?.map((item: any) => {
-                        setUnclaimed((prev)=>(Number(ethers.utils.formatEther(item[2])) + prev));
+                        setUnclaimed((prev)=>(Math.floor(Number(ethers.utils.formatEther(item[2])) + prev)));
                         if(Number(item[1] > 0)) _stakedIds.push(Number(item[1]));
                     });
 
@@ -195,11 +195,11 @@ export const NFTHolder = ({ info }: { info: any }) => {
     return (<>
 
         {loading && <div className="h-screen w-screen z-50 fixed font-bold flex-col text-xl top-0 left-0 backdrop-blur-xl bg-black/20 text-white flex items-center justify-center gap-4"><RiLoader5Fill className="text-3xl animate-spin" />Loading</div>}
-        <div className="h-full w-full md:p-6 max-md:px-2 max-md:pt-6 relative">
+        <div className="h-full w-full md:px-6 md:py-4 max-md:px-2 max-md:pt-4 relative">
 
             <div className="flex max-md:flex-col max-md:justify-center max-md:gap-2 max-md:items-center border-b-[1px] bg-white items-end pb-4 border-icePurp">
                 <div className="w-fit text-nowrap">
-                    <h1 className='text-icePurp text-3xl font-bold text-left w-1/2'>{info.name} Staking</h1>
+                    <h1 className='text-icePurp text-[1.9rem] max-md:text-[1.7rem] font-bold text-left w-1/2'>{info.name}</h1>
                 </div>
 
                 <div className="flex gap-2 md:justify-end max-md:justify-center items-end w-full">
@@ -208,7 +208,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 </div>
             </div>
 
-            <div className="h-full pb-[12vh]">
+            <div className="h-full pb-32">
 
                 <div className="h-full overflow-hidden">
 
@@ -253,13 +253,13 @@ export const NFTHolder = ({ info }: { info: any }) => {
                 </div>
 
             </div>
-            <div className="flex gap-4 left-0 absolute bottom-0 py-2 font-bold px-4 bg-white border-t-[1px] border-icePurp w-full">
+            <div className="flex max-md:flex-col max-md:gap-0 max-md:items-center gap-4 left-0 absolute bottom-0 py-2 max-md:py-1 font-bold px-4 bg-white border-t-[1px] border-icePurp w-full">
                 <div>
-                    <h2 className="text-icePurp">Unclaimed: {unclaimed.toFixed(2)} $FROST</h2>
+                    <h2 className="text-icePurp "><span className="text-icePurp/70">Unclaimed:</span> {unclaimed} $FROST</h2>
                 </div>
-                    <h2 className="text-icePurp/40">|</h2>
+                    <h2 className="text-icePurp/40 max-md:hidden">|</h2>
                 <div>
-                    <h2 className="text-icePurp">Daily FROST: {stakedIds.length * info.rewards} $FROST</h2>
+                    <h2 className="text-icePurp"><span className="text-icePurp/70">Daily FROST:</span> {stakedIds.length * info.rewards} $FROST</h2>
                 </div>
             </div>
         </div>

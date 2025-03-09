@@ -24,7 +24,7 @@ export const WalletConnectButton = () => {
   },[address])
 
   return (
-    <div className='max-md:w-full max-md:flex max-md:justify-center'>
+    <div className=''>
     <ConnectButton.Custom>
       {({
         account,

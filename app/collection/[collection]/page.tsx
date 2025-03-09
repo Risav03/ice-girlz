@@ -9,7 +9,7 @@ import { useAccount } from "wagmi";
 export default function Home({params}:{params:{collection:string}}) {
 
   return (
-    <div>
+    <div className="max-h-screen overflow-hidden">
       <Background/>
       <Navbar/>
       {/* @ts-ignore */}
