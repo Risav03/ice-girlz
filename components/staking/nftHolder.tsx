@@ -234,7 +234,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                                         ))}
                                     </div>
                                 ) : (
-                                    <h2 className="text-icePurp/70 h-full flex items-center justify-center">No unstaked NFTs</h2>
+                                    <h2 className="text-icePurp/70 h-40 flex items-center justify-center">No unstaked NFTs</h2>
                                 )}
 
                             </>
@@ -250,7 +250,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                                                 <StakedCard handleClaim={() => { handleClaim(stakedIds[index], info.index) }} data={data} />
                                             </>
                                         ))}
-                                    </div> : <h2 className="text-icePurp/70 h-full flex items-center justify-center">No staked NFTs</h2>}
+                                    </div> : <h2 className="text-icePurp/70 h-40 flex items-center justify-center">No staked NFTs</h2>}
 
                                 </>
                             }
