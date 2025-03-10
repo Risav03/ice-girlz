@@ -30,7 +30,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
     async function fetchStakedInfo() {
         setLoadNfts(true);
         try {
-            const res: any = await fetchNFT(info.index, "0xDa4b0A1F356d6986080Bb513554c9C7A6D0F1824" as `0x${string}`);
+            const res: any = await fetchNFT(info.index, address as `0x${string}`);
 
             if (res[1].length > 0) {
 
