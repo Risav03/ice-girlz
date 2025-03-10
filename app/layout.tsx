@@ -7,8 +7,7 @@ import { Slide, ToastContainer } from "react-toastify";
 
 const geistSans = localFont({
   src: "./fonts/roboto.ttf",
-  variable: "--font-geist-sans",
-  weight: "100 400 900",
+  weight: "100 900",
 });
 // const geistMono = localFont({
 //   src: "./fonts/GeistMonoVF.woff",
