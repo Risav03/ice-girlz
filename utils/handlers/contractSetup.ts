@@ -29,16 +29,17 @@ export async function contractSetup(index: number) {
 export async function fetcherContractSetup(index: number) {
   try {
     const apiKey = process.env.NEXT_PUBLIC_INFURA_API_KEY;
-    
+
     if (!apiKey) {
       console.error("Infura API key not found");
       return null;
     }
- 
-    // @ts-ignore
-    const provider = new ethers.getDefaultProvider(process.env.NEXT_PUBLIC_INFURA_API_KEY);
 
-    
+    // Create a proper provider with the Polygon network and Infura
+    const provider = new ethers.providers.JsonRpcProvider(
+      `https://polygon-mainnet.infura.io/v3/${apiKey}`
+    );
+
     const contract = new ethers.Contract(add[index], abi[index], provider);
     return contract;
   } catch (err) {
