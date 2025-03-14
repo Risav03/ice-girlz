@@ -34,9 +34,9 @@ export const NFTHolder = ({ info }: { info: any }) => {
 
             if (res[1].length > 0) {
 
-                console.log("THERE ARE UNSTAKED NFTS");
-
+                
                 if (res[1][0][0] != "") {
+
                     var _unstakedIds: number[]= [];
                     res[1]?.map((item: any) => {
                         if(Number(item[1] > 0)) _unstakedIds.push(Number(item[1]));
@@ -105,7 +105,10 @@ export const NFTHolder = ({ info }: { info: any }) => {
             }
             
             if (res[0].length > 0) {
+
+                
                 if (res[0][0][0] != "") {
+
                     var _stakedIds: number[] = [];
                     res[0]?.map((item: any) => {
                         setUnclaimed((prev)=>(Math.floor(Number(ethers.utils.formatEther(item[2])) + prev)));
@@ -125,7 +128,8 @@ export const NFTHolder = ({ info }: { info: any }) => {
                     const stakedPromises = res[0].map((hash: any, index: number) => {
 
                         if (hash.length > 0) {
-                            return fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`)
+
+                            return fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(base[info.index-1])}`)
                                 .then(async (response): Promise<FetchResult> => {
                                     if (!response.ok) {
                                         return { failed: true, index, data: undefined };
