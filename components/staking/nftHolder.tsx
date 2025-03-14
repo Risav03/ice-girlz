@@ -89,7 +89,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                         for (const index of failedIndices) {
                             const hash = res[1][index];
                             try {
-                                const response = await fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`);
+                                const response = await fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(base[info.index-1])}`);
                                 if (response.ok) {
                                     const data = await response.json();
                                     successfulResults[index] = data;
@@ -170,7 +170,7 @@ export const NFTHolder = ({ info }: { info: any }) => {
                             const hash = res[0][index];
                             if (hash.length > 0) {
                                 try {
-                                    const response = await fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(7)}`);
+                                    const response = await fetch(`https://azure-able-wasp-305.mypinata.cloud/ipfs/${hash[0].slice(base[info.index-1])}`);
                                     if (response.ok) {
                                         const data = await response.json();
                                         data.rewards = ethers.utils.formatEther(hash[2]);
