@@ -21,7 +21,7 @@ const collectionData = {
         ca: contractAdds.iceFolks,
         abi: ifAbi,
         index: 2,
-        rewards: 5
+        rewards: 15
     }
 } as const
 
