@@ -8,8 +8,6 @@ export default function Home(){
 
     const router = useRouter()
 
-    router.push("/collection/ice-girlz")
-
     return (
         <div className="min-h-screen w-screen flex-col md:px-10 max-md:px-4 py-20 flex items-center justify-center">
             <Background/>
