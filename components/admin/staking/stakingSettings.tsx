@@ -115,7 +115,7 @@ export const StakingSettings = () => {
             <Button onClick={()=>{setCollection("ice-girlz")}} selected={collection.includes("-") ? collection.replace("-"," ") : collection}>ICE GIRLZ</Button>
             <Button onClick={()=>{setCollection("ice-folks")}} selected={collection.includes("-") ? collection.replace("-"," ") : collection}>ICE FOLKS</Button>
         </div> */}
-            <div className='flex gap-1 h-full w-full'>
+            <div className='flex gap-4 h-full w-full'>
                 <div className='w-1/2'>
                     <h2 className='text-lg font-bold text-icePurp'>Read</h2>
                     <InputWithButton placeholder="Index (1, 2, ...)" info='Emission Rate' value={rewardsInd} setValue={setRewardsInd} result={rewards} callback={fetchRewards} />
@@ -124,8 +124,6 @@ export const StakingSettings = () => {
 
                     </div>
                 </div>
-
-                <div className='w-1 h-full bg-icePurp/20'></div>
 
                 <div className='w-1/2'>
                     <h2 className='text-lg font-bold text-icePurp'>Write</h2>

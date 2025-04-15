@@ -5,6 +5,7 @@ import IFabi from "@/utils/abis/ice-folks";
 import { ethers } from "ethers";
 import stakingAbi from "@/utils/abis/staking";
 import raffleAbi from "@/utils/abis/raffles";
+import erc721abi from "../abis/erc721abi";
 
 const add = [contractAdds.frost, contractAdds.iceGirlz, contractAdds.iceFolks, contractAdds.staking, contractAdds.raffles];
 const abi = [frostAbi, IGabi, IFabi, stakingAbi, raffleAbi];
@@ -23,6 +24,23 @@ export async function contractSetup(index: number) {
     }
   }
   catch (err) {
+    console.log(err);
+  }
+}
+
+export async function setERC721Contract(address: string) {
+  try{
+ // @ts-ignore
+ if (typeof window.ethereum !== 'undefined') {
+ // @ts-ignore
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+      const contract = new ethers.Contract(address, erc721abi, signer);
+      return contract
+ }
+  }
+  catch(err){
     console.log(err);
   }
 }
