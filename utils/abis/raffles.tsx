@@ -46,23 +46,11 @@ export default [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "raffleIndex",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tickets",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
 			}
 		],
-		"name": "enterMaticRaffle",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -166,7 +154,7 @@ export default [
 			},
 			{
 				"internalType": "uint256",
-				"name": "maticCost",
+				"name": "endTime",
 				"type": "uint256"
 			}
 		],
@@ -184,13 +172,6 @@ export default [
 			}
 		],
 		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "withdraw",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -278,6 +259,25 @@ export default [
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			}
+		],
+		"name": "endTimeStore",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
@@ -314,6 +314,11 @@ export default [
 					},
 					{
 						"internalType": "uint256",
+						"name": "endTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
 						"name": "participants",
 						"type": "uint256"
 					},
@@ -340,11 +345,6 @@ export default [
 					{
 						"internalType": "uint256",
 						"name": "frostPrice",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "maticPrice",
 						"type": "uint256"
 					},
 					{
@@ -545,25 +545,6 @@ export default [
 			}
 		],
 		"name": "raffleEntryFrostCost",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "raffleEntryMaticCost",
 		"outputs": [
 			{
 				"internalType": "uint256",

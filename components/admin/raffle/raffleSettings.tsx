@@ -17,9 +17,9 @@ export const RaffleSettings = () => {
     const [link, setLink] = React.useState<string>("");
     const [profileImg, setProfileImg] = React.useState<File | string | null>(null);
 
-    const [currency, setCurrency] = React.useState<string>("FROST");
-
     const [loading, setLoading] = React.useState<boolean>(false);
+
+    const [endTime, setEndTime] = React.useState<string>("")
 
     const [index, setIndex] = React.useState<number>(0);
 
@@ -79,8 +79,6 @@ export const RaffleSettings = () => {
                         link,
                         tokenId,
                         allowedTickets,
-                        currency == "FROST" ? ethers.utils.parseEther(cost) : 0,
-                        currency == "MATIC" ? ethers.utils.parseEther(cost) : 0,
                     );
                     await tx.wait().then((res: any) => {
                         console.log(res);
@@ -139,7 +137,6 @@ export const RaffleSettings = () => {
                         <h3 className='text-icePurp text-base font-bold'>Cost per Ticket</h3>
                         <div className='border-2 border-icePurp rounded-lg flex items-center justify-between'>
                             <input onChange={(e) => { setCost(e.target.value) }} value={cost} type="text" className='px-4 h-12 w-full outline-none rounded-lg bg-white text-lg text-icePurp placeholder-icePurp/30 border-icePurp' />
-                            <button onClick={() => { setCurrency(currency === "FROST" ? "MATIC" : "FROST") }} className='bg-icePurp text-white mr-2 hover:scale-[1.02] duration-150 px-4 py-2 rounded-lg'>{currency}</button>
                         </div>
                     </div>
 
