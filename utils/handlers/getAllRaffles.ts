@@ -10,7 +10,6 @@ export async function getAllRaffles(){
             return {
                 contractAddress: raffle.contractAdd,
                 frostPrice: Number(ethers.utils.formatEther(raffle.frostPrice)),
-                maticPrice: Number(ethers.utils.formatEther(raffle.maticPrice)),
                 maxAllowed: Number(raffle.maxAllowed),
                 maxOwnAllowed: Number(raffle.maxOwnAllowed),
                 sold: Number(raffle.sold),

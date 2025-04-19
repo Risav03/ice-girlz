@@ -68,9 +68,10 @@ export const RaffleSettings = () => {
 
                 console.log(response);
 
-                if (response.data.success) {
+                if (response.status == 200) {
                     const contract = await contractSetup(4);
 
+                    console.log("Contract", contract)
 
                     const tx = await contract?.setRaffleItem(
                         index,
@@ -79,6 +80,8 @@ export const RaffleSettings = () => {
                         link,
                         tokenId,
                         allowedTickets,
+                        ethers.utils.parseEther(cost),
+                        endTime
                     );
                     await tx.wait().then((res: any) => {
                         console.log(res);
@@ -144,16 +147,22 @@ export const RaffleSettings = () => {
                         <h3 className='text-icePurp text-base font-bold'>NFT Opensea Link</h3>
                         <input onChange={(e) => { setLink(e.target.value) }} value={link} type="text" className='px-4 h-12 w-full rounded-lg bg-white text-lg border-2 outline-none text-icePurp placeholder-icePurp/30 border-icePurp' />
                     </div>
-                    <div>
-                        <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-48 h-48 border-2 text-icePurp placeholder-icePurp/30 border-icePurp/30 border-dashed rounded-full cursor-pointer hover:bg-jel-gray-1">
-                            <div className="flex flex-col items-center h-full w-full p-2 overflow-hidden justify-center rounded-lg">
-                                {!profileImg ? <svg className="w-8 h-8 text-jel-gray-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                </svg> :
-                                    <Image alt="hello" className='w-full h-full object-cover rounded-full hover:scale-110 hover:opacity-30 duration-300' width={1000} height={1000} src={!profileImg ? "" : (profileImg instanceof File ? URL.createObjectURL(profileImg) : profileImg)} />}
-                            </div>
-                            <input id="dropzone-file" type="file" accept='image/*' onChange={handleFileChange} className="hidden" />
-                        </label>
+                    <div className='flex gap-2 w-full items-start'>
+                        <div className='w-1/2'>
+                            <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-60 aspect-square border-2 text-icePurp placeholder-icePurp/30 border-icePurp/30 border-dashed rounded-full cursor-pointer hover:bg-jel-gray-1">
+                                <div className="flex flex-col items-center h-full w-full p-2 overflow-hidden justify-center rounded-lg">
+                                    {!profileImg ? <svg className="w-8 h-8 text-jel-gray-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                    </svg> :
+                                        <Image alt="hello" className='w-full h-full object-cover rounded-full hover:scale-110 hover:opacity-30 duration-300' width={1000} height={1000} src={!profileImg ? "" : (profileImg instanceof File ? URL.createObjectURL(profileImg) : profileImg)} />}
+                                </div>
+                                <input id="dropzone-file" type="file" accept='image/*' onChange={handleFileChange} className="hidden" />
+                            </label>
+                        </div>
+                        <div className='w-1/2'>
+                            <h3 className='text-icePurp text-base font-bold'>End Date</h3>
+                            <input type='date' onChange={(e) => { setEndTime(String(((new Date(e.target.value)).getTime()) / 1000)) }} className='w-full border-2 placeholder-icePurp/40 text-icePurp border-icePurp rounded-lg p-2'></input>
+                        </div>
                     </div>
                 </div>
 
