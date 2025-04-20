@@ -6,6 +6,8 @@ export async function getAllRaffles(){
         const contract = await contractSetup(4);
         const raffles = await contract?.fetchActiveRaffles()
 
+        console.log(raffles);
+
         const newRaffles = raffles.map((raffle: any) => {
             return {
                 contractAddress: raffle.contractAdd,
@@ -14,6 +16,9 @@ export async function getAllRaffles(){
                 maxOwnAllowed: Number(raffle.maxOwnAllowed),
                 sold: Number(raffle.sold),
                 tokenId: Number(raffle.tokenId),
+                opensea: raffle.collectionLink,
+                endTime: Number(raffle.endTime),
+                holders: raffle.holders
             };
         });
 

@@ -1,11 +1,13 @@
 'use client'
 import { contractAdds } from '@/utils/contractAdds';
 import { contractSetup, setERC721Contract } from '@/utils/handlers/contractSetup';
+import { getAllRaffles } from '@/utils/handlers/getAllRaffles';
 import axios from 'axios';
 import { ethers } from 'ethers';
 import Image from 'next/image';
 import React, { useEffect } from 'react'
 import { RiLoader5Fill } from 'react-icons/ri';
+import { AdminRaffleCards } from './adminRaffleCards';
 
 export const RaffleSettings = () => {
 
@@ -22,6 +24,7 @@ export const RaffleSettings = () => {
     const [endTime, setEndTime] = React.useState<string>("")
 
     const [index, setIndex] = React.useState<number>(0);
+    const [values, setValues] = React.useState<any>([])
 
     async function fetchRaffles() {
         try {
@@ -29,7 +32,22 @@ export const RaffleSettings = () => {
 
             const active = await contract?.activeRaffles();
             setIndex(active.toNumber());
-            console.log("Active Raffles: ", active.toNumber());
+
+            const raffles = await getAllRaffles();
+
+            const res = raffles.map(async(raffle: any) => {
+                const contract = await setERC721Contract(raffle.contractAddress);
+                const name = await contract?.name();
+                return {...raffle, name}
+            })
+    
+            await Promise.all(res).then((values) => {
+
+                setValues(values);
+            }).catch((err) => {
+                console.log(err);
+            })
+
         }
         catch (e) {
             console.error("This is error: ", e);
@@ -170,7 +188,13 @@ export const RaffleSettings = () => {
             </div>
             <div className='w-1/2 border-l-[1px] pl-4'>
                 <h2 className='text-lg font-bold text-icePurp'>Manage</h2>
-
+                <div className='flex flex-wrap gap-1'>
+                    {values.map((raffle: any, i: number) => (
+                        <div className=''>
+                            <AdminRaffleCards values={raffle} />
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     )
