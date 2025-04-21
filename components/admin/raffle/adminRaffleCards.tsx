@@ -67,7 +67,7 @@ export const AdminRaffleCards = ({values}:{values:any}) => {
   return (
     <div className='flex relative w-60 flex-col items-center rounded-xl p-1 justify-center border-2 border-icePurp border-dashed gap-4 '>
       <div className='w-52 aspect-square object-cover  p-2 rounded-xl'>
-        <Image alt='wow' height={1080} width={1080} src={`https://icegirlz.s3.ap-south-1.amazonaws.com/raffles/${values.contractAdd}-${values.tokenId}`} />
+        <Image alt='wow' height={1080} width={1080} src={`https://icegirlz.s3.ap-south-1.amazonaws.com/raffles/${values.contractAddress.toLowerCase()}-${values.tokenId}`} />
       </div>
       <div className='p-4'>
         <div className='flex items-center gap-4'>

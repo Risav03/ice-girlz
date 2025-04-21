@@ -1,5 +1,8 @@
 'use client'
+import erc20abi from '@/utils/abis/erc20abi'
+import { contractAdds } from '@/utils/contractAdds'
 import { contractSetup } from '@/utils/handlers/contractSetup'
+import { ethers } from 'ethers'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -12,10 +15,47 @@ export const RaffleCards = ({values}:{values:any}) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [tickets, setTickets] = useState<number>(0)
 
+
+  async function setERC20() {
+    // @ts-ignore
+    if(window && window?.ethereum !== undefined){
+    // @ts-ignore
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    const signer = provider.getSigner();
+
+    try {
+      const contract = new ethers.Contract(contractAdds.frost, erc20abi, signer);
+
+      return contract;
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+  }
+
+  async function approve() {
+    try{
+      setLoading(true);
+      const contract = await setERC20();
+      const tx = await contract?.approve(contractAdds.raffles, ethers.utils.parseEther((values.frostPrice*tickets).toString()));
+      await tx.wait();
+      buyTickets();
+    }
+    catch(err){
+      console.log(err);
+    }
+    finally{
+      setLoading(false);
+    }
+  }
+
+
   async function buyTickets(){
     try{
-      console.log(values.index, tickets)
       setLoading(true);
+
       const contract = await contractSetup(4);
       const tx = await contract?.enterFrostRaffle(values.index, tickets);
       await tx.wait();
@@ -30,9 +70,9 @@ export const RaffleCards = ({values}:{values:any}) => {
   }
 
     return (
-    <div className='flex relative w-full max-md:flex-col max-md:items-center max-md:justify-center gap-4 '>
-      <div className='md:w-[400px] max-sm:w-[250px] max-md:w-[350px] aspect-square object-cover border-2 border-icePurp p-2 rounded-xl border-dashed'>
-        <Image alt='wow' height={1080} width={1080} src={`https://icegirlz.s3.ap-south-1.amazonaws.com/raffles/${values.contractAdd}-${values.tokenId}`} />
+    <div className='flex relative w-full min-h-[400px] justify-center items-center max-md:flex-col max-md:items-center max-md:justify-center gap-4 '>
+      <div className='h-fit border-2 border-icePurp p-2 rounded-xl border-dashed'>
+        <Image alt='wow' height={1080} width={1080} src={`https://icegirlz.s3.ap-south-1.amazonaws.com/raffles/${values.contractAddress.toLowerCase()}-${values.tokenId}`} className='object-cover md:w-[500px] max-sm:w-[350px] max-md:w-[450px] aspect-square rounded-lg' />
       </div>
       <div className='p-4 w-full'>
         <div className='flex items-center gap-4'>
@@ -76,8 +116,8 @@ export const RaffleCards = ({values}:{values:any}) => {
                     <button onClick={()=>{setTickets(prev => prev+100)}} className='border-[1px] border-icePurp rounded-full p-[0.05rem] text-icePurp text-xs w-10 font-bold' >+100</button>
                   </div>
                 </div>
-                {loading ? <RiLoader5Fill className='animate-spin mt-4 text-icePurp text-2xl' /> :<div className='mt-4'>
-                  <button onClick={()=>{buyTickets()}} className='rounded-full bg-icePurp w-1/2 font-bold text-white py-2 hover:-translate-y-1 duration-200'>Confirm</button>
+                {loading ? <RiLoader5Fill className='animate-spin mt-4 text-icePurp mx-auto text-2xl' /> :<div className='mt-4'>
+                  <button onClick={()=>{approve()}} className='rounded-full bg-icePurp w-1/2 font-bold text-white py-2 hover:-translate-y-1 duration-200'>Confirm</button>
                   <button onClick={()=>{setOpenModal(false)}} className='rounded-full w-1/2 font-bold text-icePurp py-2 hover:-translate-y-1 duration-200'>Cancel</button>
                 </div>}
               </div> :<>
