@@ -16,21 +16,25 @@ export const RaffleHolder = ({ raffles, loading }: { raffles: any, loading:boole
                         RAFFLES
                     </h1>
                     <div className='flex items-center w-full md:gap-3 gap-1'>
-                        <button onClick={()=>{if(page > 0){setPage(prev => prev-1)}}} className='md:w-[3%] max-md:w-[6%] max-sm:[10%] border-y-[1px] border-r-[1px] border-icePurp active:scale-110 rounded-r-xl py-4 hover:bg-icePurp group duration-200'>
+                        {page > 0 ?  <button onClick={()=>{if(page > 0){setPage(prev => prev-1)}}} className='md:w-[3%] max-md:w-[6%] max-sm:w-[10%] border-y-[1px] border-r-[1px] border-icePurp active:scale-110 rounded-r-xl py-4 hover:bg-icePurp group duration-200'>
                             <FaArrowLeft className='text-icePurp mx-auto group-hover:text-white duration-200' />
-                        </button>
-                        <div className='md:w-[94%] max-md:w-[88%] max-sm:[80%] h-[440px] items-center flex justify-center gap-4'>
+                        </button> : <div className='md:w-[3%] max-md:w-[6%] max-sm:w-[10%]'></div>}
+                       
+                        <div className='md:w-[94%]  max-md:w-[88%] max-sm:[80%] gap-4'>
                             {loading ? <RiLoader5Fill className='animate-spin text-4xl text-icePurp mx-auto' /> :<div>
                             {raffles.map((raffle: any, i:number) => (
-                                <div className=''>
+                                <>
                                     { i == page && <RaffleCards values={raffle} />}
-                                </div>
+                                </>
                             ))}
                             </div>}
                         </div>
-                        <button onClick={()=>{if(page < raffles.length){setPage(prev => prev+1)}}} className='md:w-[3%] max-md:w-[6%] max-sm:[10%] border-y-[1px] border-l-[1px] border-icePurp active:scale-110 rounded-l-xl py-4 hover:bg-icePurp group duration-200'>
-                            <FaArrowRight className='text-icePurp group-hover:text-white mx-auto duration-200' />
-                        </button>
+                        {
+                           page < raffles.length && raffles.length > 1 ? <button onClick={()=>{if(page < raffles.length && raffles.length > 1){setPage(prev => prev+1)}}} className='md:w-[3%] max-md:w-[6%] max-sm:w-[10%] border-y-[1px] border-l-[1px] border-icePurp active:scale-110 rounded-l-xl py-4 hover:bg-icePurp group duration-200'>
+                           <FaArrowRight className='text-icePurp group-hover:text-white mx-auto duration-200' />
+                       </button> : <div className='md:w-[3%] max-md:w-[6%] max-sm:w-[10%]'></div> 
+                        }
+                        
                     </div>
 
                 </div>
