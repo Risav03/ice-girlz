@@ -146,12 +146,12 @@ export const RaffleSettings = () => {
 
                     <div className='w-full'>
                         <h3 className='text-icePurp text-base font-bold'>Limit Per Wallet</h3>
-                        <input placeholder='Keep 0 for no limit' onChange={(e) => { setLimitPerWallet(e.target.value) }} value={limitPerWallet} type="text" className='px-4 outline-none h-12 w-full rounded-lg bg-white text-lg border-2 text-icePurp placeholder-icePurp/30 border-icePurp' />
+                        <input placeholder='Type 0 for no limit' onChange={(e) => { setLimitPerWallet(e.target.value) }} value={limitPerWallet} type="text" className='px-4 outline-none h-12 w-full rounded-lg bg-white text-lg border-2 text-icePurp placeholder-icePurp/30 border-icePurp' />
                     </div>
 
                     <div className='w-full'>
                         <h3 className='text-icePurp text-base font-bold'>Total Allowed Tickets</h3>
-                        <input placeholder='Keep 0 for no limit' onChange={(e) => { setAllowedTickets(e.target.value) }} value={allowedTickets} type="text" className='px-4 outline-none h-12 w-full rounded-lg bg-white text-lg border-2 text-icePurp placeholder-icePurp/30 border-icePurp' />
+                        <input placeholder='Type 0 for no limit' onChange={(e) => { setAllowedTickets(e.target.value) }} value={allowedTickets} type="text" className='px-4 outline-none h-12 w-full rounded-lg bg-white text-lg border-2 text-icePurp placeholder-icePurp/30 border-icePurp' />
                     </div>
 
                     <div className='w-full'>
