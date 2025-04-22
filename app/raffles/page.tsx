@@ -21,6 +21,7 @@ export default function Home(){
                 const name = await contract?.name();
                 return {...raffle, name}
             })
+
     
             await Promise.all(res).then((values) => {
                 console.log(values);

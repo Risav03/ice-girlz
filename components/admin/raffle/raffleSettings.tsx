@@ -13,8 +13,8 @@ export const RaffleSettings = () => {
 
     const raffleAdd = contractAdds.raffles;
 
-    const [limitPerWallet, setLimitPerWallet] = React.useState<string>("");
-    const [allowedTickets, setAllowedTickets] = React.useState<string>("");
+    const [limitPerWallet, setLimitPerWallet] = React.useState<string>("0");
+    const [allowedTickets, setAllowedTickets] = React.useState<string>("0");
     const [cost, setCost] = React.useState<string>("");
     const [link, setLink] = React.useState<string>("");
     const [profileImg, setProfileImg] = React.useState<File | string | null>(null);
@@ -145,12 +145,12 @@ export const RaffleSettings = () => {
                 <div className='flex flex-col justify-center items-center w-full gap-5'>
 
                     <div className='w-full'>
-                        <h3 className='text-icePurp text-base font-bold'>Limit Per Wallet</h3>
+                        <h3 className='text-icePurp text-base font-bold'>Limit Per Wallet <span className='text-xs'>(keep 0 for no limit)</span></h3>
                         <input placeholder='Type 0 for no limit' onChange={(e) => { setLimitPerWallet(e.target.value) }} value={limitPerWallet} type="text" className='px-4 outline-none h-12 w-full rounded-lg bg-white text-lg border-2 text-icePurp placeholder-icePurp/30 border-icePurp' />
                     </div>
 
                     <div className='w-full'>
-                        <h3 className='text-icePurp text-base font-bold'>Total Allowed Tickets</h3>
+                        <h3 className='text-icePurp text-base font-bold'>Total Allowed Tickets <span className='text-xs'>(keep 0 for no limit)</span></h3>
                         <input placeholder='Type 0 for no limit' onChange={(e) => { setAllowedTickets(e.target.value) }} value={allowedTickets} type="text" className='px-4 outline-none h-12 w-full rounded-lg bg-white text-lg border-2 text-icePurp placeholder-icePurp/30 border-icePurp' />
                     </div>
 
