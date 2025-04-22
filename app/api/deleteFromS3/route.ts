@@ -9,8 +9,6 @@ const s3Client = new S3Client({
     }
 });
 
-export const bucketParams = { Bucket: "BUCKET_NAME", Key: "KEY" };
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();
