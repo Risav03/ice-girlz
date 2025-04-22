@@ -8,6 +8,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'
 import { RiLoader5Fill } from 'react-icons/ri'
+import { toast } from 'react-toastify'
 
 export const RaffleCards = ({ values }: { values: any }) => {
 
@@ -19,12 +20,19 @@ export const RaffleCards = ({ values }: { values: any }) => {
   const [details, setDetails] = useState<any>(null);
 
   async function getHolderDetails() {
-    const arr: any = []
-    values.holders.map((item: any) => {
-      arr.push({ wallet: item.wallet, holding: Number(item.tickets) })
-    })
+    try{
+      const arr: any = []
+      values.holders.map((item: any) => {
+        arr.push({ wallet: item.wallet, holding: Number(item.tickets) })
+      })
+  
+      setDetails(arr);
 
-    setDetails(arr);
+    }
+    catch(err){
+      toast.error("Error fetching holders");
+      console.log(err);
+    }
   }
 
   useEffect(() => {
@@ -61,6 +69,7 @@ export const RaffleCards = ({ values }: { values: any }) => {
       buyTickets();
     }
     catch (err) {
+      toast.error("Error approving tokens");
       console.log(err);
     }
     finally {
@@ -79,6 +88,7 @@ export const RaffleCards = ({ values }: { values: any }) => {
       setOpenModal(false);
     }
     catch (err) {
+      toast.error("Error buying tickets");
       console.log(err);
     }
     finally {
@@ -122,16 +132,19 @@ export const RaffleCards = ({ values }: { values: any }) => {
               <div className='font-bold text-white w-1/3 text-center' >Holding</div>
             </div>
             <div className='md:max-h-28 md:h-28 max-md:h-20 max-md:max-h-20 overflow-y-scroll'>
-              {details.map((item: any) => (
+              {details.map((item: any, i:number) => (
+                <>
                 <div className='flex h-7 text-sm items-center justify-center' key={item.wallet}>
                   <div className='text-icePurp w-2/3 font-bold text-center'><a href={`https://polygonscan.com/address/${item.wallet}`} target='_blank'>{item.wallet.slice(0, 5) + "..." + item.wallet.slice(item.wallet.length - 5, item.wallet.length)}</a></div>
                   <div className='text-icePurp w-1/3 font-bold text-center'>{item.holding}</div>
                 </div>
+                  {i !== details.length-1 && <div className='w-full h-[1px] bg-icePurp' ></div>}
+                </>
               ))}
             </div>
           </div>
           <button className='w-full text-icePurp hover:-translate-y-1 duration-200 font-bold mt-2' onClick={()=>{setDetailsModal(false)}} >Go back</button>
-        </> : <div className='border-2 border-icePurp border-dashed w-full rounded-xl p-2 mt-4 '>
+        </> : <div className='border-2 border-icePurp border-dashed w-full rounded-xl py-4 px-6 mt-4 '>
           <h2 className='text-sm text-icePurp'>You Own:</h2>
           <h2 className='text-3xl text-icePurp font-bold max-md:text-center my-2'>{values.holding} Tickets</h2>
           <div className='flex gap-1 mt-2 w-full'>
@@ -156,7 +169,7 @@ export const RaffleCards = ({ values }: { values: any }) => {
               </div>}
             </div> : <>
               <button onClick={() => { setOpenModal(true) }} className='rounded-full bg-icePurp w-1/2 font-bold text-white py-2 hover:-translate-y-1 duration-200'>{values.holding > 0 ? "Buy More" : "Enter Raffle"}</button>
-              <button onClick={() => { setDetailsModal(true) }} className='rounded-full w-1/2 font-bold text-icePurp py-2 hover:-translate-y-1 duration-200'>View Details</button>
+              {values.holders.length > 0 && <button onClick={() => { setDetailsModal(true) }} className='rounded-full w-1/2 font-bold text-icePurp py-2 hover:-translate-y-1 duration-200'>View Details</button>}
             </>}
           </div>
         </div>}

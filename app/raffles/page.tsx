@@ -5,6 +5,7 @@ import Navbar from "@/components/UI/navbar";
 import { setERC721Contract } from "@/utils/handlers/contractSetup";
 import { getAllRaffles } from "@/utils/handlers/getAllRaffles";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Home(){
 
@@ -32,6 +33,7 @@ export default function Home(){
         }
 
         catch(err){
+            toast.error("Error fetching raffles");
             console.log(err);
         }
         finally{
