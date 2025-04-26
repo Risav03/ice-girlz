@@ -11,7 +11,7 @@ export default function Navbar(){
 
 
     return(
-        <div className="w-screen fixed max-md:flex-col top-2 flex px-2">
+        <div className="w-screen fixed max-md:flex-col max-md:gap-2 max-md:items-center z-[100] top-2 flex px-2">
             <div className="md:w-1/2 flex gap-2">
                 <Button selected={`${pathname.includes("collection") && "staking"}`} onClick={()=>{router.push("/collection/ice-girlz")}} >STAKING</Button>
                 <Button selected={`${pathname.includes("raffles") && "raffles"}`} onClick={()=>{router.push("/raffles")}} >RAFFLES</Button>

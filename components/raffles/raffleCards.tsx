@@ -96,17 +96,16 @@ export const RaffleCards = ({ values }: { values: any }) => {
     }
   }
 
-  return (
-    <div className='flex relative w-full min-h-[400px] justify-center items-center max-md:flex-col max-md:items-center max-md:justify-center gap-4 '>
+  return (<div className='flex max-md:flex-col gap-8'>
       <div className='h-fit border-2 border-icePurp p-2 rounded-xl border-dashed'>
         <Image alt='wow' height={1080} width={1080} src={`https://icegirlz.s3.ap-south-1.amazonaws.com/raffles/${values.contractAddress.toLowerCase()}-${values.tokenId}`} className='object-cover md:w-[500px] max-sm:w-[350px] max-md:w-[450px] aspect-square rounded-lg' />
       </div>
-      <div className='p-4 w-full h-[350px]'>
-        <div className='flex items-center gap-4'>
-          <h2 className='text-icePurp text-3xl font-bold'>{values.name} #{values.tokenId}</h2>
+      <div className='p-4 w-full min-h-[350px]'>
+        <div className='flex items-center max-md:justify-center gap-4'>
+          <h2 className='text-icePurp text-3xl font-bold '>{values.name} #{values.tokenId}</h2>
           <Link className='text-icePurp text-xl hover:scale-105 duration-200' href={values.opensea} target='blank' ><FaExternalLinkAlt /></Link>
         </div>
-        <div className='text-icePurp text-lg mt-2'>
+        <div className='text-icePurp max-md:text-center text-lg mt-2'>
           1 Ticket = {values.frostPrice} $FROST
         </div>
         <div className='flex gap-1 max-md:flex-col'>
@@ -115,26 +114,23 @@ export const RaffleCards = ({ values }: { values: any }) => {
               year: 'numeric',
               month: '2-digit',
               day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: false,
             })}
           </div>
           <div className='py-1 px-2 mt-2 text-nowrap border-[1px] text-sm flex items-center justify-center text-icePurp font-black border-icePurp rounded-full'>
-            Total Holders: {values.holders.length}
+            Total Participants: {values.holders.length}
           </div>
         </div>
 
         {detailsModal ? <>
           <div className='grid grid-flow-row overflow-y-scroll border-2 border-icePurp rounded-xl mt-4 '>
             <div className='flex bg-icePurp h-9 items-center justify-center '>
-              <div className='font-bold text-white w-2/3 text-center' >Wallet</div>
-              <div className='font-bold text-white w-1/3 text-center' >Holding</div>
+              <div className='font-bold text-white w-2/3 text-center' >Participants</div>
+              <div className='font-bold text-white w-1/3 text-center' >Tickets</div>
             </div>
             <div className='md:max-h-28 md:h-28 max-md:h-20 max-md:max-h-20 overflow-y-scroll'>
               {details.map((item: any, i:number) => (
                 <>
-                <div className='flex h-7 text-sm items-center justify-center' key={item.wallet}>
+                <div className='flex h-8 text-sm items-center justify-center' key={item.wallet}>
                   <div className='text-icePurp w-2/3 font-bold text-center'><a href={`https://polygonscan.com/address/${item.wallet}`} target='_blank'>{item.wallet.slice(0, 5) + "..." + item.wallet.slice(item.wallet.length - 5, item.wallet.length)}</a></div>
                   <div className='text-icePurp w-1/3 font-bold text-center'>{item.holding}</div>
                 </div>
@@ -144,26 +140,26 @@ export const RaffleCards = ({ values }: { values: any }) => {
             </div>
           </div>
           <button className='w-full text-icePurp hover:-translate-y-1 duration-200 font-bold mt-2' onClick={()=>{setDetailsModal(false)}} >Go back</button>
-        </> : <div className='border-2 border-icePurp border-dashed w-full rounded-xl py-4 px-6 mt-4 '>
+        </> : <div className='w-full rounded-xl mt-8 '>
           <h2 className='text-sm text-icePurp'>You Own:</h2>
           <h2 className='text-3xl text-icePurp font-bold max-md:text-center my-2'>{values.holding} Tickets</h2>
           <div className='flex gap-1 mt-2 w-full'>
-            {openModal ? <div className='w-full my-2'>
-              <div className='flex max-md:flex-col gap-2 items-center justify-center'>
-                <div className='flex gap-[0.1rem] md:w-[30%] flex-wrap'>
-                  {[0, 1, 2].map((item) => (
+            {openModal ? <div className='w-full md:flex items-center '>
+              <div className='flex gap-2 items-center md:w-1/2 justify-start'>
+                {/* <div className='flex gap-[0.1rem] md:w-[25%] '>
+                  {[0, 1].map((item) => (
                     <button onClick={() => { if (tickets - (10 ** item) >= 0) { setTickets(prev => prev - (10 ** item)) } }} className='border-[1px] border-icePurp rounded-full p-[0.05rem] text-icePurp text-xs w-10 font-bold' >-{10 ** item}</button>
                   ))}
-                </div>
-                <div className='text-xl font-bold w-[40%] flex justify-center text-icePurp'>{tickets}</div>
-                <div className='flex gap-[0.1rem] md:w-[30%] flex-wrap'>
+                </div> */}
+                <input type="number" min={0} value={tickets} onChange={(e) => { if (Number(e.target.value) >= 0) { setTickets(Number(e.target.value)) } }} className='border-[1px] border-icePurp rounded-full py-1 text-center w-[50%] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none px-2 text-icePurp text-lg outline-none font-bold' />
+                <div className='flex gap-[0.2rem] md:w-[50%] '>
                   {
-                    [0, 1, 2].map((item) => (
-                      <button onClick={() => { setTickets(prev => prev + (10 ** item)) }} className='border-[1px] border-icePurp rounded-full p-[0.05rem] text-icePurp text-xs w-10 font-bold' >+{10 ** item}</button>
+                    [0, 1].map((item) => (
+                      <button onClick={() => { setTickets(prev => prev + (10 ** item)) }} className='border-[1px] hover:scale-[1.02] duration-200 border-icePurp rounded-full text-icePurp text-xs w-10 h-10 font-bold' >+{10 ** item}</button>
                     ))}
                 </div>
               </div>
-              {loading ? <RiLoader5Fill className='animate-spin mt-4 text-icePurp mx-auto text-2xl' /> : <div className='mt-4'>
+              {loading ? <RiLoader5Fill className='animate-spin mt-4 text-icePurp mx-auto text-2xl' /> : <div className='max-md:mt-4 md:w-1/2'>
                 <button onClick={() => { approve() }} className='rounded-full bg-icePurp w-1/2 font-bold text-white py-2 hover:-translate-y-1 duration-200'>Confirm</button>
                 <button onClick={() => { setOpenModal(false) }} className='rounded-full w-1/2 font-bold text-icePurp py-2 hover:-translate-y-1 duration-200'>Cancel</button>
               </div>}
@@ -174,6 +170,6 @@ export const RaffleCards = ({ values }: { values: any }) => {
           </div>
         </div>}
       </div>
-    </div>
+  </div>
   )
 }

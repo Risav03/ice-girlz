@@ -51,7 +51,7 @@ export default function Home(){
             <div className="min-h-screen w-screen flex-col md:px-10 max-md:px-2 py-20 flex items-center justify-center">
                 <Background/>
                 <Navbar/>
-                <div className="border-[1px] border-icePurp rounded-2xl md:w-[70vw] md:min-w-[700px] h-20 text-3xl font-bold text-icePurp flex items-center justify-start mb-2 px-8 bg-white">
+                <div className="border-[1px] max-md:hidden border-icePurp rounded-2xl md:w-[70vw] md:min-w-[700px] h-20 text-3xl font-bold text-icePurp flex items-center justify-start px-8 bg-white">
                     <h1>RAFFLES</h1>
                 </div>
                     <RaffleHolder loading={loading} raffles={active}/>

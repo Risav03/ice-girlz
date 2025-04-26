@@ -10,7 +10,7 @@ export const RaffleHolder = ({ raffles, loading }: { raffles: any, loading:boole
 
     return (
         // <div className="min-h-screen h-screen w-screen md:px-10 max-md:px-4 pt-24 pb-12 flex items-center justify-center">
-            <div className='md:w-[70vw] md:min-w-[700px] bg-white max-md:w-full py-4 rounded-2xl border-[1px] items-center border-icePurp '>
+            <div className='md:w-[70vw] max-md: mt-10 md:min-w-[700px] bg-white max-md:w-full py-4 rounded-2xl border-[1px] items-center border-icePurp '>
                 <div className='w-full relative'>
                     <div className='flex items-center w-full md:gap-3 gap-1'>
                         {page > 0 ?  <button onClick={()=>{if(page > 0){setPage(prev => prev-1)}}} className='md:w-[3%] max-md:w-[6%] max-sm:w-[10%] border-y-[1px] border-r-[1px] border-icePurp active:scale-110 rounded-r-xl py-4 hover:bg-icePurp group duration-200'>
@@ -21,7 +21,11 @@ export const RaffleHolder = ({ raffles, loading }: { raffles: any, loading:boole
                             {loading ? <RiLoader5Fill className='animate-spin text-4xl text-icePurp mx-auto' /> :<div>
                             {raffles.map((raffle: any, i:number) => (
                                 <>
-                                    { i == page && <RaffleCards values={raffle} />}
+                                
+                                    { i == page &&     <div className=' relative w-full min-h-[400px] gap-4 '>
+
+                                    <h2 className='text-2xl font-bold text-icePurp mb-4'>{i+1}/{raffles.length}</h2>
+                                    <RaffleCards values={raffle} /></div>}
                                 </>
                             ))}
                             </div>}
