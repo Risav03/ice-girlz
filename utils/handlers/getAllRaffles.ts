@@ -28,3 +28,24 @@ export async function getAllRaffles(){
         console.log(err)
     }
 }
+
+export async function getEndedRaffles(){
+
+try{
+        const contract = await contractSetup(4);
+        const ended = await contract?.fetchEndedRaffles()
+
+        const endedRaffles = ended.map((raffle: any, i:number) => {
+            return {
+                contractAddress: raffle.contractAdd,
+                tokenId: Number(raffle.tokenId),
+                winner: raffle.winner,
+            };
+        });
+
+        return endedRaffles;
+    }
+    catch(err){
+        console.log(err)
+    }
+}

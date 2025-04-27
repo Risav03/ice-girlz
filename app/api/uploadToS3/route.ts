@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, ExpirationStatus } from "@aws-sdk/client-s3";
 
 
 const s3Client = new S3Client({
@@ -22,7 +22,8 @@ async function uploadFileToS3 (file:any, name:any) {
                 Bucket: process.env.AWS_S3_BUCKET_NAME,
                 Key: `raffles/${name}`,
                 Body: fileBuffer,
-                ContentType: "image/png"
+                ContentType: "image/png",
+                Expires: new Date(Date.now() + 60 * 60 * 24 * 90 * 1000), 
             }
             const command = new PutObjectCommand(params);
             await s3Client.send(command);

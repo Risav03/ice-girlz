@@ -8,6 +8,7 @@ import Image from 'next/image';
 import React, { useEffect } from 'react'
 import { RiLoader5Fill } from 'react-icons/ri';
 import { AdminRaffleCards } from './adminRaffleCards';
+import { toast } from 'react-toastify';
 
 export const RaffleSettings = () => {
 
@@ -50,6 +51,7 @@ export const RaffleSettings = () => {
 
         }
         catch (e) {
+
             console.error("This is error: ", e);
         }
     }
@@ -103,6 +105,8 @@ export const RaffleSettings = () => {
                     );
                     await tx.wait().then((res: any) => {
                         console.log(res);
+                        alert("Raffle Created Successfully");
+                        window.location.reload()
                     });
                 }
 
@@ -111,6 +115,7 @@ export const RaffleSettings = () => {
         catch (e) {
             console.error("This is error: ", e);
             // Handle the error as needed
+            toast.error("Error creating raffle");
         }
         finally {
             setLoading(false);

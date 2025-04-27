@@ -100,7 +100,7 @@ export const RaffleCards = ({ values }: { values: any }) => {
       <div className='h-fit border-2 border-icePurp p-2 rounded-xl border-dashed'>
         <Image alt='wow' height={1080} width={1080} src={`https://icegirlz.s3.ap-south-1.amazonaws.com/raffles/${values.contractAddress.toLowerCase()}-${values.tokenId}`} className='object-cover md:w-[500px] max-sm:w-[350px] max-md:w-[450px] aspect-square rounded-lg' />
       </div>
-      <div className='p-4 w-full min-h-[350px]'>
+      <div className='md:p-4 max-md:py-4 w-full min-h-[350px]'>
         <div className='flex items-center max-md:justify-center gap-4'>
           <h2 className='text-icePurp text-3xl font-bold '>{values.name} #{values.tokenId}</h2>
           <Link className='text-icePurp text-xl hover:scale-105 duration-200' href={values.opensea} target='blank' ><FaExternalLinkAlt /></Link>
@@ -131,7 +131,7 @@ export const RaffleCards = ({ values }: { values: any }) => {
               {details.map((item: any, i:number) => (
                 <>
                 <div className='flex h-8 text-sm items-center justify-center' key={item.wallet}>
-                  <div className='text-icePurp w-2/3 font-bold text-center'><a href={`https://polygonscan.com/address/${item.wallet}`} target='_blank'>{item.wallet.slice(0, 5) + "..." + item.wallet.slice(item.wallet.length - 5, item.wallet.length)}</a></div>
+                  <div className='text-icePurp w-2/3 font-bold text-center hover:underline'><a href={`https://polygonscan.com/address/${item.wallet}`} target='_blank'>{item.wallet.slice(0, 5) + "..." + item.wallet.slice(item.wallet.length - 5, item.wallet.length)}</a></div>
                   <div className='text-icePurp w-1/3 font-bold text-center'>{item.holding}</div>
                 </div>
                   {i !== details.length-1 && <div className='w-full h-[1px] bg-icePurp' ></div>}
