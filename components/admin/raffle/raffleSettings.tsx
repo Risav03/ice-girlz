@@ -14,6 +14,13 @@ export const RaffleSettings = () => {
 
     const raffleAdd = contractAdds.raffles;
 
+    const [newAdmin, setNewAdmin] = React.useState<string>("");
+    const [newAdminLoading, setNewAdminLoading] = React.useState<boolean>(false);
+
+    const [newReceiver, setNewReceiver] = React.useState<string>("");
+    const [newReceiverLoading, setNewReceiverLoading] = React.useState<boolean>(false);
+
+
     const [limitPerWallet, setLimitPerWallet] = React.useState<string>("0");
     const [allowedTickets, setAllowedTickets] = React.useState<string>("0");
     const [cost, setCost] = React.useState<string>("");
@@ -32,6 +39,10 @@ export const RaffleSettings = () => {
             const contract = await contractSetup(4);
 
             const active = await contract?.activeRaffles();
+            const owner = await contract?.owner()
+            const receiver = await contract?.fundReceiver()
+            setNewAdmin(owner);
+            setNewReceiver(receiver);
             setIndex(active.toNumber());
 
             const raffles = await getAllRaffles();
@@ -143,8 +154,60 @@ export const RaffleSettings = () => {
 
     }
 
-    return (
+    async function resetAdmin(){
+        try{
+            setNewAdminLoading(true);
+            const contract = await contractSetup(4);
+            const tx = await contract?.transferOwnership(newAdmin);
+
+            await tx.wait().then(()=>{
+                alert("Admin Reset Successfully");
+                window.location.reload();
+            })
+        }
+        catch(err){
+            console.log(err);
+            toast.error("Error resetting admin");
+        }
+        finally{
+            setNewAdminLoading(false);
+        }
+    }
+
+    async function resetReceiver(){
+        try{
+            setNewReceiverLoading(true);
+            const contract = await contractSetup(4);
+            const tx = await contract?.setFundReceiver(newReceiver);
+
+            await tx.wait().then(()=>{
+                alert("Fund Receiver Reset Successfully");
+                window.location.reload();
+            })
+        }
+        catch(err){
+            console.log(err);
+            toast.error("Error resetting admin");
+        }
+        finally{
+            setNewReceiverLoading(false);
+        }
+    }
+
+    return (<>
+    <div className='w-full'>
+                        <h3 className='text-icePurp text-base font-bold'>New Admin Wallet </h3>
+                        <input placeholder='Type 0 for no limit' onChange={(e) => { setNewAdmin(e.target.value) }} value={newAdmin} type="text" className='px-4 outline-none h-12 w-full rounded-lg bg-white text-lg border-2 text-icePurp placeholder-icePurp/30 border-icePurp' />
+                        <button className='w-20 font-bold text-white bg-icePurp py-2 rounded-lg mt-2' onClick={resetAdmin} >{newAdminLoading ? <RiLoader5Fill className='animate-spin mx-auto' /> : "Set"}</button>
+                    </div>
+                    <div className='w-full mt-2'>
+                        <h3 className='text-icePurp text-base font-bold'>Limit Per Wallet </h3>
+                        <input placeholder='Type 0 for no limit' onChange={(e) => { setNewReceiver(e.target.value) }} value={newReceiver} type="text" className='px-4 outline-none h-12 w-full rounded-lg bg-white text-lg border-2 text-icePurp placeholder-icePurp/30 border-icePurp' />
+                        <button className='w-20 font-bold text-white bg-icePurp py-2 rounded-lg mt-2' onClick={resetReceiver} >{newReceiverLoading ? <RiLoader5Fill className='animate-spin mx-auto' /> : "Set"}</button>
+
+                    </div>
         <div className='flex gap-4 h-full w-full'>
+            
             <div className='w-1/2'>
                 <h2 className='text-lg font-bold text-icePurp'>Create</h2>
                 <div className='flex flex-col justify-center items-center w-full gap-5'>
@@ -202,5 +265,6 @@ export const RaffleSettings = () => {
                 </div>
             </div>
         </div>
+    </>
     )
 }
