@@ -201,7 +201,7 @@ export const RaffleSettings = () => {
                         <button className='w-20 font-bold text-white bg-icePurp py-2 rounded-lg mt-2' onClick={resetAdmin} >{newAdminLoading ? <RiLoader5Fill className='animate-spin mx-auto' /> : "Set"}</button>
                     </div>
                     <div className='w-full mt-2'>
-                        <h3 className='text-icePurp text-base font-bold'>Limit Per Wallet </h3>
+                        <h3 className='text-icePurp text-base font-bold'>New Receiver Wallet </h3>
                         <input placeholder='Type 0 for no limit' onChange={(e) => { setNewReceiver(e.target.value) }} value={newReceiver} type="text" className='px-4 outline-none h-12 w-full rounded-lg bg-white text-lg border-2 text-icePurp placeholder-icePurp/30 border-icePurp' />
                         <button className='w-20 font-bold text-white bg-icePurp py-2 rounded-lg mt-2' onClick={resetReceiver} >{newReceiverLoading ? <RiLoader5Fill className='animate-spin mx-auto' /> : "Set"}</button>
 
