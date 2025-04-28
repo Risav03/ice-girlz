@@ -97,7 +97,7 @@ export const RaffleCards = ({ values }: { values: any }) => {
   }
 
   return (<div className='flex max-md:flex-col gap-8'>
-      <div className='h-fit border-2 border-icePurp p-2 rounded-xl border-dashed'>
+      <div className='h-fit border-2 border-icePurp rounded-xl w-fit max-md:mx-auto'>
         <Image alt='wow' height={1080} width={1080} src={`https://icegirlz.s3.ap-south-1.amazonaws.com/raffles/${values.contractAddress.toLowerCase()}-${values.tokenId}`} className='object-cover md:w-[500px] max-sm:w-[350px] max-md:w-[450px] aspect-square rounded-lg' />
       </div>
       <div className='md:p-4 max-md:py-4 w-full min-h-[350px]'>

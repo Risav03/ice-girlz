@@ -1,18 +1,28 @@
 'use client'
 import { EndedRaffleCard } from "@/components/raffles/endedRaffleCard";
+import { MyTicketsCard } from "@/components/raffles/myTicketsCard";
 import { RaffleHolder } from "@/components/raffles/raffleHolder";
 import Background from "@/components/UI/background";
+import Button from "@/components/UI/items/button";
 import Navbar from "@/components/UI/navbar";
 import { setERC721Contract } from "@/utils/handlers/contractSetup";
-import { getAllRaffles, getEndedRaffles } from "@/utils/handlers/getAllRaffles";
+import { getAllRaffles, getEndedRaffles, yourTickets } from "@/utils/handlers/getAllRaffles";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useAccount } from "wagmi";
 
 export default function Home() {
 
+    const {address} = useAccount()
+
     const [active, setActive] = useState<any>([])
     const [ended, setEnded] = useState<any>([])
+
+    const [myTickets, setMyTickets] = useState<any>([])
+
     const [loading, setLoading] = useState<boolean>(false);
+
+    const [selected, setSelected] = useState<string>("past");
 
     async function fetchRaffles() {
         try {
@@ -75,6 +85,36 @@ export default function Home() {
         }
     }
 
+    async function getMyTickets(){
+        try{
+            const res = await yourTickets(address as `0x${string}`);
+
+            const response = res.map(async (raffle: any) => {
+                const contract = await setERC721Contract(raffle.contractAddress);
+                const name = await contract?.name();
+                return { ...raffle, name }
+            })
+
+            await Promise.all(response).then((values) => {
+                console.log(values);
+                setMyTickets(values);
+            }).catch((err) => {
+                console.log(err);
+            })
+
+        }
+        catch(err){
+            toast.error("Error fetching your tickets");
+            console.log(err);
+        }
+    }
+
+    useEffect(()=>{
+        if(address){
+            getMyTickets();
+        }
+    },[address])
+
 
 
     useEffect(() => {
@@ -93,20 +133,41 @@ export default function Home() {
                 </div>
                 <RaffleHolder loading={loading} raffles={active} />
 
-                {ended.length > 0 && (
-                    <div className="fixed bottom-0 pt-2 left-0 w-full h-20 border-t-[1px] border-icePurp bg-white rounded-t-2xl">
+                        <div className="max-md:w-screen fixed bottom-20 left-0">
+                            <button onClick={()=>{setSelected("past")}} className={`md:w-32 max-md:w-1/2 ${selected == "past" ? "bg-icePurp text-white" : "bg-white text-icePurp"} py-2 md:border-r-[1px] md:border-t-[1px] border-icePurp font-bold duration-200 `}>Past Raffles</button>
+                            <button onClick={()=>{setSelected("my")}} className={`md:w-32 max-md:w-1/2 ${selected == "my" ? "bg-icePurp text-white" : "bg-white text-icePurp"} py-2 md:border-r-[1px] md:border-t-[1px] border-icePurp md:rounded-tr-xl font-bold duration-200 `}>My Tickets</button>
+                        </div>
+                {/* {selected == "past" && ( */}
+                    <div className="fixed bottom-0 pt-2 left-0 w-full h-20 border-t-[1px] border-icePurp bg-white">
+
+
                         <div className="w-full h-full overflow-x-auto">
                             <div className="flex items-center min-w-full px-2">
-                                <h1 className="text-icePurp text-xl font-bold whitespace-nowrap mr-4">Past Raffles</h1>
-                                <div className="flex gap-4 px-4 whitespace-nowrap">
-                                    {ended.map((raffle: any, i: number) => (
-                                        raffle && <EndedRaffleCard key={i} values={raffle} />
-                                    ))}
+                                <div className="flex gap-4 whitespace-nowrap">
+                                    {selected == "past" ?<>
+                                    {ended.length > 0 ? <>
+                                        {ended?.map((raffle: any, i: number) => (
+                                            raffle && <EndedRaffleCard key={i} values={raffle} />
+                                        ))}
+                                    </> : <h2 className="text-icePurp w-screen text-center mt-4">Nothing to show here!</h2>}
+                                    </> : 
+                                    <>
+                                        {myTickets.length > 0 ? <>
+                                            {myTickets?.map((ticket: any, i: number) => (
+                                                <MyTicketsCard key={i} values={ticket} />
+                                            ))}
+                                        </> : <h2 className="text-icePurp w-screen text-center mt-4">Nothing to show here!</h2>}
+                                    </>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
-                )}
+                {/* )} */}
+
+                {
+
+                }
             </div>
         </>
     )

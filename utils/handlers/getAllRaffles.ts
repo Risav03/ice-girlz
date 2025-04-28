@@ -49,3 +49,25 @@ try{
         console.log(err)
     }
 }
+
+export async function yourTickets(user: `0x${string}`){
+    try{
+        const contract = await contractSetup(4);
+        const tickets = await contract?.getUsersTickets(user);
+
+        const newTickets = tickets.map((ticket: any, i:number) => {
+            return {
+                index: i,
+                contractAddress: ticket.contractAdd,
+                tokenId: Number(ticket.tokenId),
+                tickets: Number(ticket.holding),
+            };
+        });
+
+        return newTickets;
+    }
+    catch(err){
+        console.log(err)
+    }
+
+}
