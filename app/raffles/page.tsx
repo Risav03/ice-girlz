@@ -128,10 +128,12 @@ export default function Home() {
             <div className="min-h-screen w-screen flex-col md:px-10 max-md:px-2 py-20 flex items-center justify-center">
                 <Background />
                 <Navbar />
-                <div className="border-[1px] max-md:hidden border-icePurp rounded-2xl md:w-[70vw] md:min-w-[700px] h-20 text-3xl font-bold text-icePurp flex items-center justify-start px-8 bg-white">
-                    <h1>RAFFLES</h1>
+                <div className="pb-12">
+                    <div className="border-[1px] max-md:hidden border-icePurp rounded-2xl md:w-[70vw] md:min-w-[700px] h-20 text-3xl font-bold text-icePurp flex items-center justify-start px-8 bg-white">
+                        <h1>RAFFLES</h1>
+                    </div>
+                    <RaffleHolder loading={loading} raffles={active} />
                 </div>
-                <RaffleHolder loading={loading} raffles={active} />
 
                         <div className="max-md:w-screen fixed bottom-20 left-0">
                             <button onClick={()=>{setSelected("past")}} className={`md:w-32 max-md:w-1/2 ${selected == "past" ? "bg-icePurp text-white" : "bg-white text-icePurp"} py-2 md:border-r-[1px] md:border-t-[1px] border-icePurp font-bold duration-200 `}>Past Raffles</button>
