@@ -13,7 +13,7 @@ import { useAccount } from "wagmi";
 
 export default function Home() {
 
-    const {address} = useAccount()
+    const { address } = useAccount()
 
     const [active, setActive] = useState<any>([])
     const [ended, setEnded] = useState<any>([])
@@ -85,8 +85,8 @@ export default function Home() {
         }
     }
 
-    async function getMyTickets(){
-        try{
+    async function getMyTickets() {
+        try {
             const res = await yourTickets(address as `0x${string}`);
 
             const response = res.map(async (raffle: any) => {
@@ -103,17 +103,17 @@ export default function Home() {
             })
 
         }
-        catch(err){
+        catch (err) {
             toast.error("Error fetching your tickets");
             console.log(err);
         }
     }
 
-    useEffect(()=>{
-        if(address){
+    useEffect(() => {
+        if (address) {
             getMyTickets();
         }
-    },[address])
+    }, [address])
 
 
 
@@ -135,36 +135,40 @@ export default function Home() {
                     <RaffleHolder loading={loading} raffles={active} />
                 </div>
 
-                        <div className="max-md:w-screen fixed bottom-20 left-0">
-                            <button onClick={()=>{setSelected("past")}} className={`md:w-32 max-md:w-1/2 ${selected == "past" ? "bg-icePurp text-white" : "bg-white text-icePurp"} py-2 md:border-r-[1px] md:border-t-[1px] border-icePurp font-bold duration-200 `}>Past Raffles</button>
-                            <button onClick={()=>{setSelected("my")}} className={`md:w-32 max-md:w-1/2 ${selected == "my" ? "bg-icePurp text-white" : "bg-white text-icePurp"} py-2 md:border-r-[1px] md:border-t-[1px] border-icePurp md:rounded-tr-xl font-bold duration-200 `}>My Tickets</button>
-                        </div>
+                <div className="max-md:w-screen fixed bottom-20 left-0">
+                    <button onClick={() => { setSelected("past") }} className={`md:w-32 max-md:w-1/2 ${selected == "past" ? "bg-icePurp text-white" : "bg-white text-icePurp"} py-2 md:border-r-[1px] md:border-t-[1px] border-icePurp font-bold duration-200 `}>Past Raffles</button>
+                    <button onClick={() => { setSelected("my") }} className={`md:w-32 max-md:w-1/2 ${selected == "my" ? "bg-icePurp text-white" : "bg-white text-icePurp"} py-2 md:border-r-[1px] md:border-t-[1px] border-icePurp md:rounded-tr-xl font-bold duration-200 `}>My Tickets</button>
+                </div>
                 {/* {selected == "past" && ( */}
-                    <div className="fixed bottom-0 pt-2 left-0 w-full h-20 border-t-[1px] border-icePurp bg-white">
+                <div className="fixed bottom-0 pt-2 left-0 w-full h-20 border-t-[1px] border-icePurp bg-white">
 
 
-                        <div className="w-full h-full overflow-x-auto">
-                            <div className="flex items-center min-w-full px-2">
-                                <div className="flex gap-4 whitespace-nowrap">
-                                    {selected == "past" ?<>
+                    <div className="w-full h-full overflow-x-auto">
+                        <div className="flex items-center min-w-full px-2">
+                            <div className="flex gap-4 whitespace-nowrap">
+                                {selected == "past" ? <>
                                     {ended.length > 0 ? <>
                                         {ended?.map((raffle: any, i: number) => (
                                             raffle && <EndedRaffleCard key={i} values={raffle} />
                                         ))}
                                     </> : <h2 className="text-icePurp w-screen text-center mt-4">Nothing to show here!</h2>}
-                                    </> : 
+                                </> :
                                     <>
-                                        {myTickets.length > 0 ? <>
-                                            {myTickets?.map((ticket: any, i: number) => (
-                                                <MyTicketsCard key={i} values={ticket} />
-                                            ))}
-                                        </> : <h2 className="text-icePurp w-screen text-center mt-4">Nothing to show here!</h2>}
+                                        {myTickets.some((ticket: any) => ticket.tickets > 0) ? (
+                                            <>
+                                                {myTickets.map((ticket: any, i: number) => (
+                                                    <>{ticket.tickets > 0 && <MyTicketsCard key={i} values={ticket} />}</>
+                                                ))}
+                                            </>
+                                        ) : (
+                                            <h2 className="text-icePurp w-screen text-center mt-4">Nothing to show here!</h2>
+                                        )}
                                     </>
-                                    }
-                                </div>
+                                }
                             </div>
                         </div>
                     </div>
+                </div>
                 {/* )} */}
 
                 {
