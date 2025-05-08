@@ -110,22 +110,22 @@ export const StakingSettings = () => {
 
 
     return (
-        <div className='w-full h-full mt-4'>
+        <div className='w-1/2 h-full mt-4'>
             {/* <div className='flex justify-end gap-2'>
             <Button onClick={()=>{setCollection("ice-girlz")}} selected={collection.includes("-") ? collection.replace("-"," ") : collection}>ICE GIRLZ</Button>
             <Button onClick={()=>{setCollection("ice-folks")}} selected={collection.includes("-") ? collection.replace("-"," ") : collection}>ICE FOLKS</Button>
         </div> */}
-            <div className='flex gap-4 h-full w-full'>
-                <div className='w-1/2'>
+            <div className='flex-col gap-4 h-full w-full'>
+                <div className='border-b-[1px] border-icePurp/30 mb-4'>
                     <h2 className='text-lg font-bold text-icePurp'>Read</h2>
-                    <InputWithButton placeholder="Index (1, 2, ...)" info='Emission Rate' value={rewardsInd} setValue={setRewardsInd} result={rewards} callback={fetchRewards} />
-                    <InputWithButton placeholder="Index (1, 2, ...)" info='Allowed Contracts' value={allowedInd} setValue={setAllowedInd} result={allowedRes} callback={fetchAllowedContracts} />
+                    <InputWithButton placeholder="Check index 1,2,3..." info='Emission Rate (daily reward amount)' value={rewardsInd} setValue={setRewardsInd} result={rewards} callback={fetchRewards} />
+                    <InputWithButton placeholder="Check index 1,2,3..." info='Allowed Contracts (your collections that can leverage staking benefits)' value={allowedInd} setValue={setAllowedInd} result={allowedRes} callback={fetchAllowedContracts} />
                     <div>
 
                     </div>
                 </div>
 
-                <div className='w-1/2'>
+                <div className=''>
                     <h2 className='text-lg font-bold text-icePurp'>Write</h2>
                     <InputWithButton placeholder="Index (1, 2, ...)" info='Remove Contract' value={removeInd} setValue={setRemoveInd} result={removeRes} callback={removeContract} />
                     <InputWithButton placeholder="New Owner" info='Transfer Ownership' value={newOwner} setValue={setNewOwner} result={newOwnerRes} callback={transferOwnership} />
@@ -136,6 +136,10 @@ export const StakingSettings = () => {
                         <input placeholder="New Emission (1, 2, ...)" type="text" value={newEmission} onChange={(e) => { setNewEmission(e.target.value) }} className='w-full border-[1px] placeholder-icePurp/40 text-icePurp border-icePurp rounded-lg p-2' />
 
                         <button className='bg-icePurp rounded-lg p-2 font-bold text-white' onClick={changeEmission}>Execute</button>
+
+                        <div className='min-h-4 text-icePurp text-sm mt-1'>
+                            {newEmissionRes && <p>{newEmissionRes}</p>}
+                        </div>
                     </div>
 
                     <div className='flex-col flex gap-2 border-[1px] border-icePurp/30 p-2 rounded-lg'>
@@ -163,7 +167,7 @@ export const StakingSettings = () => {
     )
 }
 
-function InputWithButton({ info, placeholder, value, setValue, result, callback }: { info: string, placeholder: string, value: string, setValue: React.Dispatch<React.SetStateAction<string>>, result: any, callback: () => void }) {
+export function InputWithButton({ info, placeholder, value, setValue, result, callback }: { info: string, placeholder: string, value: string, setValue: React.Dispatch<React.SetStateAction<string>>, result: any, callback: () => void }) {
     return <>
         <h2 className='mt-2 mb-1 text-sm font-bold text-icePurp'>{info}</h2>
         <div className='flex'>

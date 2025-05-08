@@ -1,5 +1,6 @@
 'use client'
 import { StakingSettings } from "@/components/admin/staking/stakingSettings";
+import { TokenSettings } from "@/components/admin/token/tokenSettings";
 import Background from "@/components/UI/background";
 import Button from "@/components/UI/items/button";
 import Navbar from "@/components/UI/navbar";
@@ -30,7 +31,7 @@ export default function Home(){
         getOwner()
     },[])
 
-    if(owner && address && address == owner){
+    // if(owner && address && address == owner){
     return (
         <div className="min-h-screen w-screen flex-col md:px-10 max-md:px-4 py-20 flex items-center justify-center">
             <Background/>
@@ -38,27 +39,30 @@ export default function Home(){
             <div className='w-full h-full max-md:py-4 max-md:gap-2 p-4 flex-col bg-white rounded-2xl border-[1px] items-center px-6 border-icePurp flex'>
                 <div className="flex max-md:flex-col w-full">
                     <h1 className='text-icePurp text-3xl max-md:hidden font-bold text-left md:w-1/2'>
-                        ADMIN Staking
+                        Staking-Token Admin
                     </h1>
                     <div className="flex gap-2 justify-end w-full">
                         <Button selected="false" onClick={()=>{router.push("/admin/raffles")}} >Raffle</Button>
                     </div>
                 </div>
-            <StakingSettings/>
+            <div className="w-full flex gap-8">
+                <StakingSettings/>
+                <TokenSettings/>
+            </div>
             </div>
 
         </div>
     )
-}
+// }
 
-    else{
-        return (
-            <div className="min-h-screen w-screen flex-col md:px-10 max-md:px-4 py-20 flex items-center justify-center">
-                <Background/>
-                <Navbar/>
-                <h1 className="text-4xl font-bold">ACCESS RESTRICTED</h1>
-                <h3>If you are the owner connect using {owner}</h3>
-            </div>
-        )
-    }
+//     else{
+//         return (
+//             <div className="min-h-screen w-screen flex-col md:px-10 max-md:px-4 py-20 flex items-center justify-center">
+//                 <Background/>
+//                 <Navbar/>
+//                 <h1 className="text-4xl font-bold">ACCESS RESTRICTED</h1>
+//                 <h3>If you are the owner connect using {owner}</h3>
+//             </div>
+//         )
+//     }
 }

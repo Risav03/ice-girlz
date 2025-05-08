@@ -41,7 +41,7 @@ export default function Home(){
                 </h1>
                 <div className="flex gap-2 justify-end w-full">
                     <Button selected="false" onClick={()=>{router.push("/admin/raffles")}} >Raffle</Button>
-                    <Button selected="false" onClick={()=>{router.push("/admin/staking")}} >Staking</Button>
+                    <Button selected="false" onClick={()=>{router.push("/admin/staking")}} >Staking-Token</Button>
                 </div>
             </div>
         </div>
