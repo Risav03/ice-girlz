@@ -31,7 +31,7 @@ export default function Home(){
         getOwner()
     },[])
 
-    // if(owner && address && address == owner){
+    if(owner && address && address == owner){
     return (
         <div className="min-h-screen w-screen flex-col md:px-10 max-md:px-4 py-20 flex items-center justify-center">
             <Background/>
@@ -53,16 +53,16 @@ export default function Home(){
 
         </div>
     )
-// }
+}
 
-//     else{
-//         return (
-//             <div className="min-h-screen w-screen flex-col md:px-10 max-md:px-4 py-20 flex items-center justify-center">
-//                 <Background/>
-//                 <Navbar/>
-//                 <h1 className="text-4xl font-bold">ACCESS RESTRICTED</h1>
-//                 <h3>If you are the owner connect using {owner}</h3>
-//             </div>
-//         )
-//     }
+    else{
+        return (
+            <div className="min-h-screen w-screen flex-col md:px-10 max-md:px-4 py-20 flex items-center justify-center">
+                <Background/>
+                <Navbar/>
+                <h1 className="text-4xl font-bold">ACCESS RESTRICTED</h1>
+                <h3>If you are the owner connect using {owner}</h3>
+            </div>
+        )
+    }
 }
