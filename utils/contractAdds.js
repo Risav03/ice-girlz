@@ -3,6 +3,6 @@ export const contractAdds = {
     frost: "0xEd06Bb12A7BAeF7aa6572535bE7f205872B78531",
     iceFolks: "0xa250B1a79a94689Fa81aBb20b62b74Df569A023B",
 
-    raffles: "0x38FbfFEcfc9F7236C076009e90E200044bDB7065",
+    raffles: "0xd49D198f6d448458C1eEc01954a38Fc2165E30cF",
     staking: "0x6493021A5dC68fC715B9d2dC59207c656fA3397c"
 }
